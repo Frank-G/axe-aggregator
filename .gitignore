@@ -1,0 +1,14 @@
+/bin/
+.settings
+.project
+.classpath
+/target/
+target
+target/
+.idea
+.idea/
+/.idea/
+*.iml
+out
+logs/*
+conf/configuration.properties
