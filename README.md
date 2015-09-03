@@ -1,29 +1,35 @@
 AXE Aggregator
 =====================================
 
-Installation (dev)
+This component is the aggregator service of cloudiator. It runs
+on its own, providing a RMI interface to allow the orchestration
+of the aggregators.
+
+Prerequisites
 =====================================
+KairosDB (1.0.0-1)
 
 
-Installation and Building (prod)
+Installation
 =====================================
+
+Step I: Install KairosDB and run it on port 8080 on the same
+machine as AXE.
+
+Step II: mvn install
 
 
 Usage
 =====================================
 
-If you access the frontend at http://localhost:9000/login you will be asked to provide a password.
+java -jar service/target/axe-aggregator-service-1.2.0-SNAPSHOT-jar-with-dependencies.jar
 
-A default user is available:
-
-username: john.doe@example.com
-password: admin
-tenant: admin
 
 Documentation
 =====================================
 
-[Documentation not yet available]
+Orchestration is done via the Monitoring-API of colosseum.
+
 
 Contact
 =====================================
