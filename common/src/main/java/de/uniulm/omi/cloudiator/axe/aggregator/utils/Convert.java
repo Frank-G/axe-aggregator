@@ -35,7 +35,7 @@ public class Convert {
         return 0.0d;
     }
 
-    public static long timeToMilliseconds(Object unit, long interval) throws Exception {
+    public static long timeToMilliseconds(Object unit, long interval) {
         if (unit instanceof TimeUnit) {
             switch ((TimeUnit) unit) {
                 case HOURS:
@@ -47,7 +47,7 @@ public class Convert {
                 case MILLISECONDS:
                     return interval;
                 default:
-                    throw new Exception("TimeUnit for Schedule not implemented!");
+                    throw new RuntimeException("TimeUnit for Schedule not implemented!");
             }
             // CAMEL-specific:
             //        } else if(unit instanceof UnitType){
@@ -71,8 +71,10 @@ public class Convert {
                     return interval * 1000 * 60;
                 case "SECONDS":
                     return interval * 1000;
+                case "MILLISECONDS":
+                    return interval;
                 default:
-                    throw new Exception("TimeUnit for Schedule not implemented!");
+                    throw new RuntimeException("TimeUnit for Schedule not implemented!");
             }
         }
     }
