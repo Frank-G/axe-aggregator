@@ -88,6 +88,11 @@ public class AggregatorServiceAccessImpl implements AggregatorServiceAccess {
             details.getUsername(), details.getTenant(), details.getPassword());
     }
 
+    @Override
+    public boolean ping() {
+        return true;
+    }
+
     @Override public void addObserver(Long id, ObserverParameter params) {
         as.addObserverToMonitor(id, Creation.createObserver(params));
     }

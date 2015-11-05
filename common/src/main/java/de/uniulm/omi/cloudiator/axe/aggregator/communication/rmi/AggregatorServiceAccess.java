@@ -48,4 +48,6 @@ public interface AggregatorServiceAccess extends Remote {
     void stopAll() throws RemoteException;
 
     void setColosseum(ColosseumDetails details) throws RemoteException;
+
+    boolean ping() throws RemoteException;
 }
