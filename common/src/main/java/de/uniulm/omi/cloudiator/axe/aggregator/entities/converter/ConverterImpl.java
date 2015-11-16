@@ -20,7 +20,9 @@ package de.uniulm.omi.cloudiator.axe.aggregator.entities.converter;
 
 import de.uniulm.omi.cloudiator.axe.aggregator.communication.frontend.FrontendCommunicator;
 import de.uniulm.omi.cloudiator.colosseum.client.entities.*;
+import de.uniulm.omi.cloudiator.colosseum.client.entities.abstracts.HorizontalScalingAction;
 import de.uniulm.omi.cloudiator.colosseum.client.entities.abstracts.Monitor;
+import de.uniulm.omi.cloudiator.colosseum.client.entities.abstracts.ScalingAction;
 import de.uniulm.omi.cloudiator.colosseum.client.entities.abstracts.Window;
 import de.uniulm.omi.cloudiator.colosseum.client.entities.enums.FlowOperator;
 import de.uniulm.omi.cloudiator.colosseum.client.entities.enums.FormulaOperator;
@@ -43,7 +45,8 @@ public class ConverterImpl implements Converter {
         return new de.uniulm.omi.cloudiator.axe.aggregator.entities.ComposedMonitor(cm.getId(),
             convert(cm.getFlowOperator()), convert(fc.getSchedule(cm.getSchedule())),
             convert(cm.getFunction()), convert(fc.getQuantifier(cm.getQuantifier())),
-            convert(fc.getWindow(cm.getWindow())), convert(fc.getMonitors(cm.getMonitors())));
+            convert(fc.getWindow(cm.getWindow())), convert(fc.getMonitors(cm.getMonitors())),
+                convertScalingAction(fc.getScalingActions(cm.getScalingActions())));
     }
 
     @Override
@@ -130,6 +133,42 @@ public class ConverterImpl implements Converter {
             return new de.uniulm.omi.cloudiator.axe.aggregator.entities.MeasurementWindow(
                 obj.getId(), ((MeasurementWindow) obj).getMeasurements().intValue() //TODO
             );
+        }
+    }
+
+    @Override
+    public List<de.uniulm.omi.cloudiator.axe.aggregator.entities.ScalingAction> convertScalingAction(List<ScalingAction> obj) {
+        List<de.uniulm.omi.cloudiator.axe.aggregator.entities.ScalingAction> result = new ArrayList();
+
+        for (ScalingAction sa : obj) {
+            result.add(convert(sa));
+        }
+
+        return result;
+    }
+
+    @Override
+    public de.uniulm.omi.cloudiator.axe.aggregator.entities.ScalingAction convert(ScalingAction obj) {
+        if (obj instanceof ComponentHorizontalInScalingAction) {
+            return new de.uniulm.omi.cloudiator.axe.aggregator.entities.ComponentHorizontalInScalingAction(
+                    obj.getId(),
+                    ((ComponentHorizontalInScalingAction) obj).getAmount(),
+                    ((ComponentHorizontalInScalingAction) obj).getMin(),
+                    ((ComponentHorizontalInScalingAction) obj).getMax(),
+                    ((ComponentHorizontalInScalingAction) obj).getCount(),
+                    ((ComponentHorizontalInScalingAction) obj).getApplicationComponent()
+            );
+        } else if(obj instanceof ComponentHorizontalOutScalingAction) { //MeasurementWindow TODO fix this
+            return new de.uniulm.omi.cloudiator.axe.aggregator.entities.ComponentHorizontalOutScalingAction(
+                    obj.getId(),
+                    ((ComponentHorizontalOutScalingAction) obj).getAmount(),
+                    ((ComponentHorizontalOutScalingAction) obj).getMin(),
+                    ((ComponentHorizontalOutScalingAction) obj).getMax(),
+                    ((ComponentHorizontalOutScalingAction) obj).getCount(),
+                    ((ComponentHorizontalOutScalingAction) obj).getApplicationComponent()
+            );
+        } else {
+            throw new RuntimeException("ScalingActionType not implemented!");
         }
     }
 }

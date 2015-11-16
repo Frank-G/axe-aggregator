@@ -73,7 +73,7 @@ public class AggregatorServiceAccessImpl implements AggregatorServiceAccess {
     }
 
     @Override public void updateCache() throws RemoteException {
-        throw new RuntimeException("Not yet implemented!");
+        //throw new RuntimeException("Not yet implemented!");
         //TODO update ipCache
         //TODO update EVERY aggregator since the monitor informtion is cached - add interface
     }

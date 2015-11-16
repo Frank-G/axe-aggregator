@@ -23,6 +23,7 @@ import de.uniulm.omi.cloudiator.axe.aggregator.entities.ComposedMonitor;
 import de.uniulm.omi.cloudiator.axe.aggregator.entities.ConstantMonitor;
 import de.uniulm.omi.cloudiator.colosseum.client.entities.*;
 import de.uniulm.omi.cloudiator.colosseum.client.entities.abstracts.Monitor;
+import de.uniulm.omi.cloudiator.colosseum.client.entities.abstracts.ScalingAction;
 import de.uniulm.omi.cloudiator.colosseum.client.entities.abstracts.Window;
 
 import java.util.List;
@@ -82,6 +83,8 @@ public interface FrontendCommunicator {
 
     List<Monitor> getMonitors(List<Long> ids);
 
+    List<ScalingAction> getScalingActions(List<Long> ids);
+
     SensorDescription getSensorDescription(Long id);
 
     ComposedMonitor getComposedMonitor(Long id);
@@ -89,4 +92,10 @@ public interface FrontendCommunicator {
     de.uniulm.omi.cloudiator.axe.aggregator.entities.RawMonitor getRawMonitor(Long id);
 
     ConstantMonitor getConstantMonitor(Long id);
+
+    int getAmountOfComponentInstances(Long component);
+
+    void removeLatestComponentInstance(Long component);
+
+    void addAnotherComponentInstance(Long component);
 }

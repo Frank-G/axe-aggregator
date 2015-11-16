@@ -20,6 +20,7 @@ package de.uniulm.omi.cloudiator.axe.aggregator.entities.converter;
 
 import de.uniulm.omi.cloudiator.axe.aggregator.entities.Monitor;
 import de.uniulm.omi.cloudiator.colosseum.client.entities.*;
+import de.uniulm.omi.cloudiator.colosseum.client.entities.abstracts.ScalingAction;
 import de.uniulm.omi.cloudiator.colosseum.client.entities.abstracts.Window;
 import de.uniulm.omi.cloudiator.colosseum.client.entities.enums.FlowOperator;
 import de.uniulm.omi.cloudiator.colosseum.client.entities.enums.FormulaOperator;
@@ -54,4 +55,9 @@ public interface Converter {
         FormulaQuantifier obj);
 
     de.uniulm.omi.cloudiator.axe.aggregator.entities.Window convert(Window obj);
+
+    de.uniulm.omi.cloudiator.axe.aggregator.entities.ScalingAction convert(ScalingAction obj);
+
+    List<de.uniulm.omi.cloudiator.axe.aggregator.entities.ScalingAction> convertScalingAction(
+            List<ScalingAction> obj);
 }
