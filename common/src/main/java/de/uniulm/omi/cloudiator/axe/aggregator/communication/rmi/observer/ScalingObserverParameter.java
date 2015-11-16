@@ -24,12 +24,12 @@ import de.uniulm.omi.cloudiator.axe.aggregator.entities.FormulaOperator;
 /**
  * Created by Frank on 25.08.2015.
  */
-public class ScalingObserverParameter extends ExternalObserverParameter {
+public class ScalingObserverParameter extends ThresholdObserverParameter {
     private final ColosseumDetails colosseumDetails;
 
-    public ScalingObserverParameter(Double threshold, FormulaOperator operator, String servername,
-        Integer port, String externalId, ColosseumDetails colosseumDetails) {
-        super(threshold, operator, servername, port, externalId);
+    public ScalingObserverParameter(Double threshold, FormulaOperator operator,
+                                    ColosseumDetails colosseumDetails) {
+        super(threshold, operator);
 
         this.colosseumDetails = colosseumDetails;
     }

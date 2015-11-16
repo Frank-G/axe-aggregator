@@ -18,10 +18,11 @@
 
 package de.uniulm.omi.cloudiator.axe.aggregator.communication.rmi.observer;
 
+import java.io.Serializable;
 import java.rmi.Remote;
 
 /**
  * Created by Frank on 24.08.2015.
  */
-public interface ObserverParameter extends Remote {
+public interface ObserverParameter extends Remote, Serializable {
 }

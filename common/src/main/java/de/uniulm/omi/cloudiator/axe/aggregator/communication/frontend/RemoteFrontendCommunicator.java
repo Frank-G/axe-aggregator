@@ -28,6 +28,7 @@ import de.uniulm.omi.cloudiator.colosseum.client.ClientController;
 import de.uniulm.omi.cloudiator.colosseum.client.SingletonFactory;
 import de.uniulm.omi.cloudiator.colosseum.client.entities.*;
 import de.uniulm.omi.cloudiator.colosseum.client.entities.abstracts.Monitor;
+import de.uniulm.omi.cloudiator.colosseum.client.entities.abstracts.ScalingAction;
 import de.uniulm.omi.cloudiator.colosseum.client.entities.abstracts.Window;
 import de.uniulm.omi.cloudiator.colosseum.client.entities.internal.Entity;
 
@@ -579,5 +580,93 @@ public class RemoteFrontendCommunicator implements FrontendCommunicator {
 
         ClientController<ConstantMonitor> controller = this.get(ConstantMonitor.class);
         return converter.convert(controller.get(id));
+    }
+
+    @Override
+    public int getAmountOfComponentInstances(Long component) {
+        int amount = 0;
+
+        for(Instance i : this.get(Instance.class).getList()){
+            if(this.get(ApplicationComponent.class).get(i.getApplicationComponent()).getComponent().equals(component)){
+                amount++;
+            }
+        }
+
+        return amount;
+    }
+
+    @Override
+    public void removeLatestComponentInstance(Long component) {
+        List<Instance> allInstances = this.get(Instance.class).getList();
+        Instance toRemove = allInstances.get(allInstances.size() - 1);
+        this.get(Instance.class).delete(toRemove);
+    }
+
+    @Override
+    public void addAnotherComponentInstance(Long component) {
+        List<Instance> allInstances = this.get(Instance.class).getList();
+
+        Instance anyInstance = null;
+
+        for(Instance i : allInstances){
+            ApplicationComponent ac = this.get(ApplicationComponent.class).get(i.getApplicationComponent());
+            if (ac.getComponent().equals(component)) {
+                anyInstance = i;
+                break;
+            }
+        }
+
+        // add the same vm
+        VirtualMachine vm = null;
+
+        for (VirtualMachine x : this.get(VirtualMachine.class).getList()) {
+            if (anyInstance.getVirtualMachine().equals(x.getId())) {
+                vm = new VirtualMachine(
+                        null,
+                        null,
+                        x.getName() + System.currentTimeMillis() % 1000,
+                        x.getCloud(),
+                        x.getImage(),
+                        x.getHardware(),
+                        x.getLocation(),
+                        x.getTemplateOptions()
+                );
+
+                vm = this.get(VirtualMachine.class).create(vm);
+            }
+        }
+
+        // add the instance to the vm
+        Instance newInstance = new Instance(
+                anyInstance.getApplicationComponent(),
+                anyInstance.getApplicationInstance(),
+                vm.getId()
+        );
+
+        this.get(Instance.class).create(newInstance);
+    }
+
+    @Override
+    public List<ScalingAction> getScalingActions(List<Long> ids) {
+        List<ScalingAction> result = new ArrayList<>();
+
+        List<ComponentHorizontalInScalingAction> ins = this.get(ComponentHorizontalInScalingAction.class).getList();
+        List<ComponentHorizontalOutScalingAction> outs = this.get(ComponentHorizontalOutScalingAction.class).getList();
+
+        for (Long id : ids) {
+            for (ComponentHorizontalInScalingAction m : ins) {
+                if (m.getId().equals(id)) {
+                    result.add(m);
+                }
+            }
+            for (ComponentHorizontalOutScalingAction m : outs) {
+                if (m.getId().equals(id)) {
+                    result.add(m);
+                }
+
+            }
+        }
+
+        return result;
     }
 }

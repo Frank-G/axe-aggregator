@@ -31,11 +31,11 @@ public class ComposedMonitor extends MetricMonitor {
     private final Schedule schedule;
     private final Window window;
     private final List<Monitor> monitors;
-    private final List<ScalingAction> scalingActions = new ArrayList<ScalingAction>();
+    private final List<ScalingAction> scalingActions;
 
     public ComposedMonitor(long idMonitor, FlowOperator flowOperator, Schedule schedule,
         FormulaOperator function, FormulaQuantifier quantifier, Window window,
-        List<Monitor> monitors) {
+        List<Monitor> monitors, List<ScalingAction> scalingActions) {
         super(idMonitor, schedule);
         this.flowOperator = flowOperator;
         this.function = function;
@@ -43,6 +43,12 @@ public class ComposedMonitor extends MetricMonitor {
         this.schedule = schedule;
         this.window = window;
         this.monitors = monitors;
+        if(scalingActions == null){
+            this.scalingActions = scalingActions;
+        } else {
+            this.scalingActions = scalingActions;
+        }
+
     }
 
     public FlowOperator getFlowOperator() {
