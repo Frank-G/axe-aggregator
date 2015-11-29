@@ -93,9 +93,9 @@ public interface FrontendCommunicator {
 
     ConstantMonitor getConstantMonitor(Long id);
 
-    int getAmountOfComponentInstances(Long component);
+    int getAmountOfComponentInstances(Long appComponent);
 
-    void removeLatestComponentInstance(Long component);
+    void removeLatestComponentInstance(Long appComponent);
 
-    void addAnotherComponentInstance(Long component);
+    void addAnotherComponentInstance(Long appComponent);
 }

@@ -118,6 +118,7 @@ public class Calc {
             case LAST: {
                 return Calc.LAST(values);
             }
+            case IDENTITY:
             case FIRST: {
                 return Calc.FIRST(values);
             }
