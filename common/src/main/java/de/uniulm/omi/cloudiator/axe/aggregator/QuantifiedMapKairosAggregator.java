@@ -89,7 +89,7 @@ public class QuantifiedMapKairosAggregator extends ComposedKairosAggregator {
                         tagValues.add(String.valueOf(instance.getId()));
 
                         List<Double> kairosAggregatedValues = getKairos()
-                            .getKairos(getIpCache().getIp(instance.getIpAddress()), 8080 /* TODO dynamic storing per VM */)
+                            .getKairos(getIpCache().getIp(instance.getIpAddress()), getKairos().getDefaultPort() /* TODO dynamic storing per VM */)
                             .getAggregatedValue(metricName, tagValues,
                                 getComposedMonitor().getFunction(),
                                 getComposedMonitor().getWindow(), (long) Utils.timeToMilliseconds(
@@ -131,7 +131,7 @@ public class QuantifiedMapKairosAggregator extends ComposedKairosAggregator {
                         tagValues.add(String.valueOf(instance.getId()));
 
                         List<Double> kairosAggregatedValues = getKairos()
-                            .getKairos(getIpCache().getIp(instance.getIpAddress()), 8080 /* TODO dynamic storing per VM */)
+                            .getKairos(getIpCache().getIp(instance.getIpAddress()), getKairos().getDefaultPort() /* TODO dynamic storing per VM */)
                             .getAggregatedValue(metricName, tagValues,
                                 getComposedMonitor().getFunction(),
                                 getComposedMonitor().getWindow(), (long) Utils.timeToMilliseconds(

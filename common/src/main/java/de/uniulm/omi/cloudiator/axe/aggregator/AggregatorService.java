@@ -42,6 +42,7 @@ public class AggregatorService {
     private final IpCache ipCache;
     private final static String COMPOSED_METRIC_NAME = "aggregation";
     public static final Logger LOGGER = LogManager.getLogger(AggregatorService.class);
+    private final String homeDomainIP;
 
     synchronized public void addAggregator(ComposedMonitor monitor) {
 
@@ -246,15 +247,16 @@ public class AggregatorService {
         }
     }
 
-    private AggregatorService(FrontendCommunicator fc) {
+    private AggregatorService(FrontendCommunicator fc, String homeDomainIP) {
         this.fc = fc;
         this.kairosDb = KairosDbService.getInstance();
-        this.ipCache = IpCache.create(fc);
+        this.homeDomainIP = homeDomainIP;
+        this.ipCache = IpCache.create(fc, homeDomainIP);
     }
 
-    public static AggregatorService getService(FrontendCommunicator fc) {
+    public static AggregatorService getService(FrontendCommunicator fc, String homeDomainIP) {
         if (instance == null) {
-            instance = new AggregatorService(fc);
+            instance = new AggregatorService(fc, homeDomainIP);
         }
 
         return instance;

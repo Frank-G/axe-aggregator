@@ -28,18 +28,35 @@ import java.util.concurrent.ConcurrentMap;
  * Created by Frank on 27.07.2015.
  */
 public class KairosDbService {
-    private static final KairosDbService instance = new KairosDbService();
+    private static /* final */ KairosDbService instance;
     private final ConcurrentMap<Address, KairosDbConnection> connections =
         new ConcurrentHashMap<Address, KairosDbConnection>();
+    private final String homeDomainIp;
+    private final Integer homeDomainPort;
+    private final Integer defaultKairosPort;
 
-    private KairosDbService() {
-
+    private KairosDbService(String homeDomainIp, Integer homeDomainPort, Integer defaultKairosPort) {
+        this.homeDomainIp = homeDomainIp;
+        this.homeDomainPort = homeDomainPort;
+        this.defaultKairosPort = defaultKairosPort;
     }
 
     public synchronized static KairosDbService getInstance() {
+        if(instance == null){
+            //throw new RuntimeException("This is not allowed to be called before set instance!");
+        }
+
         return instance;
     }
 
+
+    public synchronized static void setInstance(String homeDomainIp, Integer homeDomainPort, Integer defaultKairosPort) {
+        if(instance != null){
+            //throw new RuntimeException("This is not allowed to be called a second time!");
+        } else {
+            instance = new KairosDbService(homeDomainIp, homeDomainPort, defaultKairosPort);
+        }
+    }
 
     public KairosDbConnection getKairos(String ip, int port) {
         return getKairos(new Address(ip, port));
@@ -59,6 +76,10 @@ public class KairosDbService {
     }
 
     public KairosDbConnection getLocalKairos() {
-        return getKairos(new Address("127.0.0.1", 8080)); /*TODO put in config file*/
+        return getKairos(new Address(homeDomainIp, homeDomainPort));
+    }
+
+    public Integer getDefaultPort(){
+        return defaultKairosPort;
     }
 }

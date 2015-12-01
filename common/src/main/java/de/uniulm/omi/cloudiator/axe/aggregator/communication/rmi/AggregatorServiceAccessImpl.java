@@ -22,6 +22,7 @@ import de.uniulm.omi.cloudiator.axe.aggregator.AggregatorService;
 import de.uniulm.omi.cloudiator.axe.aggregator.communication.frontend.FrontendCommunicator;
 import de.uniulm.omi.cloudiator.axe.aggregator.communication.rmi.observer.Creation;
 import de.uniulm.omi.cloudiator.axe.aggregator.communication.rmi.observer.ObserverParameter;
+import de.uniulm.omi.cloudiator.axe.aggregator.config.CommandLinePropertiesAccessor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -35,11 +36,13 @@ public class AggregatorServiceAccessImpl implements AggregatorServiceAccess {
 
     private final FrontendCommunicator fc;
     private final AggregatorService as;
+    private final String homeDomainIP;
     public static final Logger LOGGER = LogManager.getLogger(AggregatorServiceAccessImpl.class);
 
-    public AggregatorServiceAccessImpl(FrontendCommunicator fc) {
+    public AggregatorServiceAccessImpl(FrontendCommunicator fc, String homeDomainIP) {
         this.fc = fc;
-        this.as = AggregatorService.getService(this.fc);
+        this.homeDomainIP = homeDomainIP;
+        this.as = AggregatorService.getService(this.fc, this.homeDomainIP);
     }
 
     @Override public void doAggregation(Long idMonitor) throws RemoteException {

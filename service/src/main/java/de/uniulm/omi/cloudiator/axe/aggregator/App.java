@@ -24,6 +24,8 @@ import de.uniulm.omi.cloudiator.axe.aggregator.communication.rmi.AggregatorServi
 import de.uniulm.omi.cloudiator.axe.aggregator.communication.rmi.AggregatorServiceAccessImpl;
 import de.uniulm.omi.cloudiator.axe.aggregator.communication.rmi.Constants;
 import de.uniulm.omi.cloudiator.axe.aggregator.communication.rmi.Registrator;
+import de.uniulm.omi.cloudiator.axe.aggregator.config.CommandLinePropertiesAccessor;
+import de.uniulm.omi.cloudiator.axe.aggregator.config.CommandLinePropertiesAccessorImpl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -38,9 +40,14 @@ public class App {
 
     public static void main(String[] args) {
         try {
+            CommandLinePropertiesAccessor config = new CommandLinePropertiesAccessorImpl(args);
+            KairosDbService.setInstance(config.getLocalDomainKairosIP(),
+                    config.getLocalDomainKairosPort(),
+                    config.getDefaultKairosPort());
+
             FrontendCommunicator fc = new RemoteFrontendCommunicator();
 
-            AggregatorServiceAccess asa = new AggregatorServiceAccessImpl(fc);
+            AggregatorServiceAccess asa = new AggregatorServiceAccessImpl(fc, config.getLocalDomainKairosIP());
 
             AggregatorServiceAccess stub = reg.export(asa, Constants.RMI_PORT);
 

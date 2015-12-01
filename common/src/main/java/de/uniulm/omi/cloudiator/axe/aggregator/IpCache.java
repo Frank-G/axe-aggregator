@@ -31,14 +31,16 @@ public class IpCache {
 
     private Map<Long, String> IPs = new ConcurrentHashMap<Long, String>(); // <id_ip, value_ip>
     private FrontendCommunicator fc;
+    private String homeDomainIp;
 
-    private IpCache(FrontendCommunicator fc) {
+    private IpCache(FrontendCommunicator fc, String homeDomainIp) {
         this.fc = fc;
+        this.homeDomainIp = homeDomainIp;
     }
 
-    synchronized public static IpCache create(FrontendCommunicator fc) {
+    synchronized public static IpCache create(FrontendCommunicator fc, String homeDomainIp) {
         if (singleton == null) {
-            singleton = new IpCache(fc);
+            singleton = new IpCache(fc, homeDomainIp);
         } else {
             if (!singleton.checkFrontendCommunicator(fc)) {
                 singleton.setFrontendCommunicator(fc);
@@ -57,7 +59,7 @@ public class IpCache {
 
     public String getIp(Long ip) {//TODO better add ip address per mi
         if (ip == null) {
-            return "127.0.0.1"; /* TODO only for the time being, that we have aggr. only in home domain */
+            return homeDomainIp; /* TODO only for the time being, that we have aggr. only in home domain */
         }
 
         for (Map.Entry<Long, String> s : IPs.entrySet()) {

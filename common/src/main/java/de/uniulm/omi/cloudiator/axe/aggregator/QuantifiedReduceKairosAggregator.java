@@ -164,7 +164,7 @@ public class QuantifiedReduceKairosAggregator extends ComposedKairosAggregator {
 
                 for (String key : tagValues.keySet()) {
                     kairosAggregatedValues = getKairos().
-                        getKairos(key, 8080 /* TODO dynamic storing per VM */)
+                        getKairos(key, getKairos().getDefaultPort() /* TODO dynamic storing per VM */)
                         .getAggregatedValue(metricName, tagValues.get(key),
                             getComposedMonitor().getFunction(), getComposedMonitor().getWindow(),
                             (long) Utils.timeToMilliseconds(
@@ -188,7 +188,7 @@ public class QuantifiedReduceKairosAggregator extends ComposedKairosAggregator {
                     tagValues.put(onlyEntry, singleId);
 
                     kairosAggregatedValues = getKairos()
-                        .getKairos(getIpCache().getIp(instance.getIpAddress()), 8080 /* TODO dynamic storing per VM */)
+                        .getKairos(getIpCache().getIp(instance.getIpAddress()), getKairos().getDefaultPort() /* TODO dynamic storing per VM */)
                         .getAggregatedValue(metricName, tagValues.get(onlyEntry),
                             getComposedMonitor().getFunction(), getComposedMonitor().getWindow(),
                             (long) Utils.timeToMilliseconds(
