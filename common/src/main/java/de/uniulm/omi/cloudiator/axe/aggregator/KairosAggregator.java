@@ -86,7 +86,8 @@ public abstract class KairosAggregator implements Aggregator {
         if (newValue == Double.NaN) {
             LOGGER.error("No values could be aggregated: newValue is NaN");
         } else {
-            getKairos().getLocalKairos().write("aggregation", tags, newValue);
+            if(this.getComposedMonitor().getFunction().canWrite())
+                getKairos().getLocalKairos().write("aggregation", tags, newValue);
 
             notifyObservers(new Measurement(idMonitorInstance, idMonitorInstance, newValue,
                 System.currentTimeMillis()));

@@ -583,11 +583,11 @@ public class RemoteFrontendCommunicator implements FrontendCommunicator {
     }
 
     @Override
-    public int getAmountOfComponentInstances(Long component) {
+    public int getAmountOfComponentInstances(Long appComponent) {
         int amount = 0;
 
         for(Instance i : this.get(Instance.class).getList()){
-            if(this.get(ApplicationComponent.class).get(i.getApplicationComponent()).getComponent().equals(component)){
+            if(this.get(ApplicationComponent.class).get(i.getApplicationComponent()).getId().equals(appComponent)){
                 amount++;
             }
         }
@@ -596,21 +596,21 @@ public class RemoteFrontendCommunicator implements FrontendCommunicator {
     }
 
     @Override
-    public void removeLatestComponentInstance(Long component) {
+    public void removeLatestComponentInstance(Long appComponent) {
         List<Instance> allInstances = this.get(Instance.class).getList();
         Instance toRemove = allInstances.get(allInstances.size() - 1);
         this.get(Instance.class).delete(toRemove);
     }
 
     @Override
-    public void addAnotherComponentInstance(Long component) {
+    public void addAnotherComponentInstance(Long appComponent) {
         List<Instance> allInstances = this.get(Instance.class).getList();
 
         Instance anyInstance = null;
 
         for(Instance i : allInstances){
             ApplicationComponent ac = this.get(ApplicationComponent.class).get(i.getApplicationComponent());
-            if (ac.getComponent().equals(component)) {
+            if (ac.getId().equals(appComponent)) {
                 anyInstance = i;
                 break;
             }
@@ -621,14 +621,19 @@ public class RemoteFrontendCommunicator implements FrontendCommunicator {
 
         for (VirtualMachine x : this.get(VirtualMachine.class).getList()) {
             if (anyInstance.getVirtualMachine().equals(x.getId())) {
+                //VirtualMachine vmOfAnyInstance = this.get(VirtualMachine.class).get(anyInstance.getVirtualMachine());
+
                 vm = new VirtualMachine(
                         null,
                         null,
-                        x.getName() + System.currentTimeMillis() % 1000,
+                        null,
                         x.getCloud(),
+                        x.getCloudCredentials(),
+                        x.getOwner(),
+                        x.getLocation(),
+                        x.getName() + System.currentTimeMillis(),
                         x.getImage(),
                         x.getHardware(),
-                        x.getLocation(),
                         x.getTemplateOptions()
                 );
 
@@ -638,6 +643,9 @@ public class RemoteFrontendCommunicator implements FrontendCommunicator {
 
         // add the instance to the vm
         Instance newInstance = new Instance(
+                null,
+                null,
+                null,
                 anyInstance.getApplicationComponent(),
                 anyInstance.getApplicationInstance(),
                 vm.getId()
