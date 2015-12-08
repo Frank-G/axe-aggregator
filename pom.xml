@@ -65,7 +65,8 @@
 
     <scm>
         <connection>scm:git:https://github.com/cloudiator/axe-aggregator.git</connection>
-        <developerConnection>scm:git:git@github.com:cloudiator/axe-aggregator.git</developerConnection>
+        <developerConnection>scm:git:git@github.com:cloudiator/axe-aggregator.git
+        </developerConnection>
         <url>https://github.com/cloudiator/axe-aggregator/</url>
         <tag>HEAD</tag>
     </scm>
@@ -80,7 +81,7 @@
             <dependency>
                 <groupId>io.github.cloudiator</groupId>
                 <artifactId>colosseum-client</artifactId>
-                <version>${project.version}</version>
+                <version>0.1.0-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>org.kairosdb</groupId>
