@@ -36,8 +36,6 @@
     </repositories>
 
     <properties>
-        <my.version>0.1.0-SNAPSHOT</my.version>
-        <colosseum.client.version>0.1.0-SNAPSHOT</colosseum.client.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <kairosdb.version>2.0</kairosdb.version>
         <log4j.version>2.3</log4j.version>
@@ -77,12 +75,12 @@
             <dependency>
                 <groupId>io.github.cloudiator.axe</groupId>
                 <artifactId>axe-aggregator-common</artifactId>
-                <version>${my.version}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.github.cloudiator</groupId>
                 <artifactId>colosseum-client</artifactId>
-                <version>${colosseum.client.version}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.kairosdb</groupId>
