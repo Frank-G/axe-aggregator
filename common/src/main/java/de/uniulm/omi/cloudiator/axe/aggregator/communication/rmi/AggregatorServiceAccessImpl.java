@@ -62,7 +62,7 @@ public class AggregatorServiceAccessImpl implements AggregatorServiceAccess {
 
     @Override public void stopAggregation(Long idMonitor) throws RemoteException {
         try {
-            as.removeAggregator(fc.getComposedMonitor(idMonitor));
+            as.removeAggregator(idMonitor);
         } catch (Exception e) {
             LOGGER.error("Could not stop aggregation: " + idMonitor);
             e.printStackTrace();
