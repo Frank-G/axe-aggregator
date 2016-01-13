@@ -76,7 +76,8 @@ public abstract class KairosAggregator implements Aggregator {
         return this.ipCache;
     }
 
-    protected void updateValue(Double newValue, Long idMonitorInstance) {
+    protected void
+    updateValue(Double newValue, Long idMonitorInstance) {
 
         List<Tag> tags = new ArrayList<>();
         tags.add(new Tag("monitorinstance", String.valueOf(idMonitorInstance)));
