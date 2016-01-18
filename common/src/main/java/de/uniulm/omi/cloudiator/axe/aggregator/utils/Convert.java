@@ -38,6 +38,8 @@ public class Convert {
     public static long timeToMilliseconds(Object unit, long interval) {
         if (unit instanceof TimeUnit) {
             switch ((TimeUnit) unit) {
+                case DAYS:
+                    return interval * 1000 * 60 * 60 * 24;
                 case HOURS:
                     return interval * 1000 * 60 * 60;
                 case MINUTES:
@@ -47,7 +49,7 @@ public class Convert {
                 case MILLISECONDS:
                     return interval;
                 default:
-                    throw new RuntimeException("TimeUnit for Schedule not implemented!");
+                    throw new RuntimeException("TimeUnit for Schedule not implemented! (2)");
             }
             // CAMEL-specific:
             //        } else if(unit instanceof UnitType){
@@ -65,6 +67,8 @@ public class Convert {
             //            }
         } else {
             switch (unit.toString()) {
+                case "DAYS":
+                    return interval * 1000 * 60 * 60 * 24;
                 case "HOURS":
                     return interval * 1000 * 60 * 60;
                 case "MINUTES":
@@ -74,7 +78,7 @@ public class Convert {
                 case "MILLISECONDS":
                     return interval;
                 default:
-                    throw new RuntimeException("TimeUnit for Schedule not implemented!");
+                    throw new RuntimeException("TimeUnit for Schedule not implemented! (3)");
             }
         }
     }

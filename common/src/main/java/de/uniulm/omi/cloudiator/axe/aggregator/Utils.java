@@ -30,27 +30,17 @@ import java.util.Map;
  */
 public class Utils {
     public static long timeToMilliseconds(Object unit, long interval) {
-        String var3 = unit.toString();
-        byte var4 = -1;
-        switch (var3.hashCode()) {
-            case -1606887841:
-                if (var3.equals("SECONDS")) {
-                    var4 = 1;
-                }
-                break;
-            case 1782884543:
-                if (var3.equals("MINUTES")) {
-                    var4 = 0;
-                }
-        }
-
-        switch (var4) {
-            case 0:
-                return interval * 1000L * 60L;
-            case 1:
+        switch (unit.toString()) {
+            case "SECONDS":
                 return interval * 1000L;
+            case "MINUTES":
+                return interval * 1000L * 60L;
+            case "HOURS":
+                return interval * 1000L * 60L * 60L;
+            case "DAYS":
+                return interval * 1000L * 60L * 60L * 24L;
             default:
-                throw new AssertionError("TimeUnit for Schedule not implemented!");
+                throw new AssertionError("TimeUnit for Schedule not implemented! (1)");
         }
     }
 
