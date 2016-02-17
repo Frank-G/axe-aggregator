@@ -16,9 +16,7 @@
   ~ under the License.
   -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <repositories>
@@ -36,8 +34,6 @@
     </repositories>
 
     <properties>
-        <my.version>0.1.0-SNAPSHOT</my.version>
-        <colosseum.client.version>0.1.0-SNAPSHOT</colosseum.client.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <kairosdb.version>2.0</kairosdb.version>
         <log4j.version>2.3</log4j.version>
@@ -49,11 +45,11 @@
     <parent>
         <groupId>io.github.cloudiator</groupId>
         <artifactId>project</artifactId>
-        <version>0.1.0-SNAPSHOT</version>
+        <version>0.2.0-SNAPSHOT</version>
     </parent>
     <groupId>io.github.cloudiator.axe</groupId>
     <artifactId>aggregator</artifactId>
-    <version>0.1.0-SNAPSHOT</version>
+    <version>0.2.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <modules>
@@ -67,9 +63,11 @@
     <url>https://github.com/cloudiator</url>
 
     <scm>
-        <connection>scm:git@github.com:cloudiator/axe-aggregator.git</connection>
-        <developerConnection>scm:git@github.com:cloudiator/axe-aggregator.git</developerConnection>
-        <url>git@github.com:cloudiator/axe-aggregator.git</url>
+        <connection>scm:git:https://github.com/cloudiator/axe-aggregator.git</connection>
+        <developerConnection>scm:git:git@github.com:cloudiator/axe-aggregator.git
+        </developerConnection>
+        <url>https://github.com/cloudiator/axe-aggregator/</url>
+        <tag>HEAD</tag>
     </scm>
 
     <dependencyManagement>
@@ -77,12 +75,12 @@
             <dependency>
                 <groupId>io.github.cloudiator.axe</groupId>
                 <artifactId>axe-aggregator-common</artifactId>
-                <version>${my.version}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.github.cloudiator</groupId>
                 <artifactId>colosseum-client</artifactId>
-                <version>${colosseum.client.version}</version>
+                <version>0.2.0-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>org.kairosdb</groupId>

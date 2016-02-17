@@ -119,7 +119,7 @@ public class ObservingKairosAggregator extends RawKairosAggregator {
             this.aggregate();
 
         } catch (Exception e) {
-            LOGGER.error("MetricInstance: " + getMonitor().getId() + " ERROR setting values!");
+            LOGGER.error("Monitor: " + getMonitor().getId() + " failed setting values! (1)");
             e.printStackTrace();
         }
     }

@@ -172,9 +172,18 @@ public class QuantifiedReduceKairosAggregator extends ComposedKairosAggregator {
                                 getComposedMonitor().getSchedule().getInterval()) /* * 2 todo define offset*/,
                             getComposedMonitor().getSchedule());
 
-                    //Use all if its a MeasurementWindow since kairos cant handle the aggregation here:
+                    //Use as many measurements as in the window if its a MeasurementWindow
+                    //since kairos cant handle the aggregation here:
                     if (getComposedMonitor().getWindow() instanceof MeasurementWindow) {
-                        values.addAll(kairosAggregatedValues);
+                        MeasurementWindow mw = (MeasurementWindow) getComposedMonitor().getWindow();
+                        int startingIndex;
+                        if (mw.getMeasurements() >= kairosAggregatedValues.size()){
+                            startingIndex = 0;
+                        } else {
+                            startingIndex = kairosAggregatedValues.size() - mw.getMeasurements();
+                        }
+
+                        values.addAll(kairosAggregatedValues.subList(startingIndex, kairosAggregatedValues.size()));
                     } else {
                         values.add(kairosAggregatedValues.get(kairosAggregatedValues.size() - 1));
                     }
@@ -229,8 +238,7 @@ public class QuantifiedReduceKairosAggregator extends ComposedKairosAggregator {
             this.aggregate();
 
         } catch (Exception e) {
-            System.out.println(
-                "MetricInstance: " + getComposedMonitor().getId() + " ERROR setting values!");
+            LOGGER.error("Monitor: " + getComposedMonitor().getId() + " failed setting values! (3)");
             e.printStackTrace();
         }
     }

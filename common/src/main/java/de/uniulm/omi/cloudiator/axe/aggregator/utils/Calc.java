@@ -122,8 +122,11 @@ public class Calc {
             case FIRST: {
                 return Calc.FIRST(values);
             }
+            case MAX:{
+                return Calc.MAX(values);
+            }
             default:
-                throw new RuntimeException("FormulaOperator not yet implemented!");
+                throw new RuntimeException("FormulaOperator not yet implemented!" + "\t" + operator.toString());
 
         }
     }
