@@ -81,10 +81,10 @@ public class KairosDbConnection {
         try {
             httpClient.pushMetrics(metricBuilder);
         } catch (URISyntaxException e) {
-            LOGGER.error("URL Syntax is malformed: " + this.url);
+            LOGGER.error("URL Syntax is malformed: " + this.url, e);
             return;
         } catch (IOException e) {
-            LOGGER.error("Something went wrong on pushing metrics: " + this.url);
+            LOGGER.error("Something went wrong on pushing metrics: " + this.url, e);
             return;
         }
     }
@@ -117,14 +117,18 @@ public class KairosDbConnection {
 
 
         //QueryBuilder queryBuilder = null;
+        KairosMetricParameter parameterCache = new KairosMetricParameter();
         int aggregationInMilliSeconds =
             (int) window.aggregationInMilliseconds(schedule, minimumInterval);
         builder = builder.setStart(aggregationInMilliSeconds + PULL_DELAY, TimeUnit.MILLISECONDS);
 
-        QueryMetric queryMetric = builder.setEnd(now).addMetric(metricName);
+        //TODO builder = builder.setEnd(now); // This is necessary because of the delay in Visor
+        QueryMetric queryMetric = builder.addMetric(metricName);
+        parameterCache.setMetricName(metricName);
 
         for (String tagValue : tagValues) {
             queryMetric = queryMetric.addTag(tagName, tagValue);
+            parameterCache.addTag(tagName, tagValue);
         }
 
         // DO only aggregate in Kairos if it is a TimeWindow
@@ -133,37 +137,44 @@ public class KairosDbConnection {
                 case AVG: {
                     queryMetric.addAggregator(AggregatorFactory
                         .createAverageAggregator(aggregationInMilliSeconds, TimeUnit.MILLISECONDS));
+                    parameterCache.addAggregation(function.toString(), aggregationInMilliSeconds);
                 }
                 break;
                 case SUM: {
                     queryMetric.addAggregator(AggregatorFactory
                         .createSumAggregator(aggregationInMilliSeconds, TimeUnit.MILLISECONDS));
+                    parameterCache.addAggregation(function.toString(), aggregationInMilliSeconds);
                 }
                 break;
                 case STD: {
                     queryMetric.addAggregator(AggregatorFactory
                         .createStandardDeviationAggregator(aggregationInMilliSeconds,
                             TimeUnit.MILLISECONDS));
+                    parameterCache.addAggregation(function.toString(), aggregationInMilliSeconds);
                 }
                 break;
                 case COUNT: {
                     queryMetric.addAggregator(AggregatorFactory
                         .createCountAggregator(aggregationInMilliSeconds, TimeUnit.MILLISECONDS));
+                    parameterCache.addAggregation(function.toString(), aggregationInMilliSeconds);
                 }
                 break;
                 case MIN: {
                     queryMetric.addAggregator(AggregatorFactory
                         .createMinAggregator(aggregationInMilliSeconds, TimeUnit.MILLISECONDS));
+                    parameterCache.addAggregation(function.toString(), aggregationInMilliSeconds);
                 }
                 break;
                 case MAX: {
                     queryMetric.addAggregator(AggregatorFactory
                         .createMaxAggregator(aggregationInMilliSeconds, TimeUnit.MILLISECONDS));
+                    parameterCache.addAggregation(function.toString(), aggregationInMilliSeconds);
                 }
                 break;
                 case DIV: {
                     queryMetric.addAggregator(
                         AggregatorFactory.createRateAggregator(TimeUnit.MILLISECONDS));
+                    parameterCache.addAggregation(function.toString(), aggregationInMilliSeconds);
                 }
                 break;
                 default:
@@ -186,17 +197,25 @@ public class KairosDbConnection {
 
         List<Queries> queries = response.getQueries();
 
-        if (queries.size() > 1)
+        if (queries.size() > 1) {
+            logFailedQuery(builder, response, parameterCache);
             throw new RuntimeException("more than one query in response");
-        if (queries.isEmpty())
+        }
+        if (queries.isEmpty()) {
+            logFailedQuery(builder, response, parameterCache);
             throw new RuntimeException("no query in response");
+        }
 
         List<Results> results = queries.get(0).getResults();
 
-        if (results.size() > 1)
+        if (results.size() > 1) {
+            logFailedQuery(builder, response, parameterCache);
             throw new RuntimeException("too much results received");
-        if (results.isEmpty())
-            throw new RuntimeException("no results received");
+        }
+        if (results.isEmpty()) {
+            logFailedQuery(builder, response, parameterCache);
+            // catch this error below: throw new RuntimeException("no results received");
+        }
 
         List<Double> result = new ArrayList<Double>();
 
@@ -237,6 +256,48 @@ public class KairosDbConnection {
         }
 
         return result;
+    }
+
+    private void logFailedQuery(QueryBuilder builder, QueryResponse response, KairosMetricParameter parameterCache) {
+        String errorMessage = "QueryFailed!";
+        errorMessage += "\n" + "-Queried metrics: ";
+        for(QueryMetric qm : builder.getMetrics()){
+            errorMessage += "\n" + "---" + qm.toString();
+            // TODO find a way to have all set values
+        }
+        try {
+            errorMessage += "\n" + "-Start absolute: " + builder.getStartAbsolute();
+        } catch (NullPointerException npe){
+            // ignore
+        }
+        try {
+            errorMessage += "\n" + "-End absolute: " + builder.getEndAbsolute();
+        } catch (NullPointerException npe){
+            // ignore
+        }
+        try {
+            errorMessage += "\n" + "-Start relative: " + builder.getStartRelative().getValue() + " : " +
+                    builder.getStartRelative().getUnit().toString();
+        } catch (NullPointerException npe){
+            // ignore
+        }
+        try {
+            errorMessage += "\n" + "-End relative: " + builder.getEndRelative();
+        } catch (NullPointerException npe){
+            // ignore
+        }
+
+        errorMessage += "\n" + "Response of failed Query";
+        errorMessage += "\n" + "-errors:";
+        for(String error : response.getErrors()){
+            errorMessage += "\n" + "---" + error;
+        }
+        errorMessage += "\n" + response.getStatusCode();
+        errorMessage += "\n" + "Parameters:" + parameterCache.toString();
+
+        errorMessage += "\n" + "Selected KairosDB: " + this.url;
+
+        LOGGER.error(errorMessage);
     }
 
     public boolean isAggregationMappable(FormulaOperator function) {
