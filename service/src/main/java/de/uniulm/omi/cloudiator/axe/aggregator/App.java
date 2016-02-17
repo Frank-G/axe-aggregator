@@ -49,7 +49,7 @@ public class App {
 
             AggregatorServiceAccess asa = new AggregatorServiceAccessImpl(fc, config.getLocalDomainKairosIP());
 
-            AggregatorServiceAccess stub = reg.export(asa, Constants.RMI_PORT);
+            AggregatorServiceAccess stub = reg.export(asa, config.getRmiPort());
 
             // TODO it might be worth exploiting ways to get rid of this
             // TODO dependency to a registry. note that there does not seem to

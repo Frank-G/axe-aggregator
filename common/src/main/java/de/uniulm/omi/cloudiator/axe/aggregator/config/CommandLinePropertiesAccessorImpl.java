@@ -79,4 +79,9 @@ public class CommandLinePropertiesAccessorImpl
     public Integer getDefaultKairosPort() {
         return Integer.parseInt(this.getCommandLineOption("defaultKairosPort"));
     }
+
+    @Override
+    public Integer getRmiPort() {
+        return Integer.parseInt(this.getCommandLineOption("rmiPort"));
+    }
 }

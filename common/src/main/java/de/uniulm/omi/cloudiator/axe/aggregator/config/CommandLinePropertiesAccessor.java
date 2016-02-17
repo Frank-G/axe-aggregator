@@ -7,4 +7,5 @@ public interface CommandLinePropertiesAccessor {
     String getLocalDomainKairosIP();
     Integer getLocalDomainKairosPort();
     Integer getDefaultKairosPort();
+    Integer getRmiPort();
 }
