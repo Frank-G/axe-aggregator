@@ -42,6 +42,7 @@ public class AggregatorService {
     private final IpCache ipCache;
     private final static String COMPOSED_METRIC_NAME = "aggregation";
     public static final Logger LOGGER = LogManager.getLogger(AggregatorService.class);
+    private final String homeDomainIP;
 
     synchronized public void addAggregator(ComposedMonitor monitor) {
 
@@ -174,21 +175,21 @@ public class AggregatorService {
     //        return true; // nothing changed
     //    }
 
-    synchronized public void removeAggregator(ComposedMonitor monitor) {
-        System.out.println("Start Deleting Monitor: " + monitor.getId());
+    synchronized public void removeAggregator(Long monitorId) {
+        System.out.println("Start Deleting Monitor: " + monitorId);
 
         boolean found = false;
         int index = 0;
         while (!found && index < aggregators.size()) {
-            if (aggregators.get(index).getMonitorId() == monitor.getId()) {
-                System.out.println("Done Deleting Monitor: " + monitor.getId());
+            if (monitorId.equals(aggregators.get(index).getMonitorId())) {
+                System.out.println("Done Deleting Monitor: " + monitorId);
 
                 aggregators.get(index).unschedule();
                 aggregators.remove(index);
                 found = true;
             } else {
                 System.out
-                    .println(monitor.getId() + " is not " + aggregators.get(index).getMonitorId());
+                    .println(monitorId + " is not " + aggregators.get(index).getMonitorId());
             }
             index++;
         }
@@ -246,15 +247,16 @@ public class AggregatorService {
         }
     }
 
-    private AggregatorService(FrontendCommunicator fc) {
+    private AggregatorService(FrontendCommunicator fc, String homeDomainIP) {
         this.fc = fc;
         this.kairosDb = KairosDbService.getInstance();
-        this.ipCache = IpCache.create(fc);
+        this.homeDomainIP = homeDomainIP;
+        this.ipCache = IpCache.create(fc, homeDomainIP);
     }
 
-    public static AggregatorService getService(FrontendCommunicator fc) {
+    public static AggregatorService getService(FrontendCommunicator fc, String homeDomainIP) {
         if (instance == null) {
-            instance = new AggregatorService(fc);
+            instance = new AggregatorService(fc, homeDomainIP);
         }
 
         return instance;

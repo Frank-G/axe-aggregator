@@ -19,6 +19,7 @@
 package de.uniulm.omi.cloudiator.axe.aggregator.observer;
 
 import de.uniulm.omi.cloudiator.axe.aggregator.AggregatorService;
+import de.uniulm.omi.cloudiator.axe.aggregator.communication.rmi.Constants;
 import de.uniulm.omi.cloudiator.axe.aggregator.entities.FormulaOperator;
 
 import java.io.IOException;
@@ -65,7 +66,7 @@ public abstract class TelnetObserver extends NetworkThresholdObserver {
 
         /*TODO not very clean */
         /* TODO better solution to get the CDO id? */
-        String externalRef = AggregatorService.getService(null).getFc()
+        String externalRef = AggregatorService.getService(null, Constants.LOCALHOST_IP).getFc()
             .getMonitorInstance(obj.getIdMonitorInstance()).getExternalReferences().get(0);
 
         metricTelnet += "n/a" + split;
