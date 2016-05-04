@@ -627,6 +627,7 @@ public class RemoteFrontendCommunicator implements FrontendCommunicator {
                         null,
                         null,
                         null,
+                        null,
                         x.getCloud(),
                         x.getCloudCredentials(),
                         x.getOwner(),
@@ -643,6 +644,7 @@ public class RemoteFrontendCommunicator implements FrontendCommunicator {
 
         // add the instance to the vm
         Instance newInstance = new Instance(
+                null,
                 null,
                 null,
                 null,
