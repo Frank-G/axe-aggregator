@@ -49,7 +49,7 @@
     </parent>
     <groupId>io.github.cloudiator.axe</groupId>
     <artifactId>aggregator</artifactId>
-    <version>0.2.0-SNAPSHOT</version>
+    <version>CS-0.2.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <modules>

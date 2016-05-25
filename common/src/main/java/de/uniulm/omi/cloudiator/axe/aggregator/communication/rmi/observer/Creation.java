@@ -18,10 +18,7 @@
 
 package de.uniulm.omi.cloudiator.axe.aggregator.communication.rmi.observer;
 
-import de.uniulm.omi.cloudiator.axe.aggregator.observer.Observer;
-import de.uniulm.omi.cloudiator.axe.aggregator.observer.ScalingObserver;
-import de.uniulm.omi.cloudiator.axe.aggregator.observer.TelnetEventObserver;
-import de.uniulm.omi.cloudiator.axe.aggregator.observer.TelnetMetricObserver;
+import de.uniulm.omi.cloudiator.axe.aggregator.observer.*;
 
 /**
  * Created by Frank on 24.08.2015.
@@ -36,6 +33,10 @@ public class Creation {
             TelnetMetricObserverParameter p = (TelnetMetricObserverParameter) params;
             return new TelnetMetricObserver(p.getExternalId(), p.getThreshold(), p.getOperator(),
                     p.getServername(), p.getPort());
+        } else if (params instanceof JsonHttpThresholdObserverParameter) {
+            JsonHttpThresholdObserverParameter p = (JsonHttpThresholdObserverParameter) params;
+            return new JsonCsObserver(p.getExternalId(), p.getThreshold(), p.getOperator(),
+                    p.getEndpoint());
         } else if (params instanceof ScalingObserverParameter) {
             ScalingObserverParameter p = (ScalingObserverParameter) params;
             return new ScalingObserver(p.getThreshold(), p.getOperator(),
