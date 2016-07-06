@@ -78,11 +78,6 @@
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>io.github.cloudiator</groupId>
-                <artifactId>colosseum-client</artifactId>
-                <version>0.2.0-SNAPSHOT</version>
-            </dependency>
-            <dependency>
                 <groupId>org.kairosdb</groupId>
                 <artifactId>client</artifactId>
                 <version>${kairosdb.version}</version>
