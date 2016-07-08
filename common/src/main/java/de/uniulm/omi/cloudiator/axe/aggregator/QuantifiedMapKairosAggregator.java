@@ -18,6 +18,7 @@
 
 package de.uniulm.omi.cloudiator.axe.aggregator;
 
+import com.google.common.base.Throwables;
 import de.uniulm.omi.cloudiator.axe.aggregator.entities.ComposedMonitor;
 import de.uniulm.omi.cloudiator.axe.aggregator.entities.ConstantMonitor;
 import de.uniulm.omi.cloudiator.axe.aggregator.utils.Calc;
@@ -92,7 +93,7 @@ public class QuantifiedMapKairosAggregator extends ComposedKairosAggregator {
                             .getKairos(getIpCache().getIp(instance.getIpAddress()), getKairos().getDefaultPort() /* TODO dynamic storing per VM */)
                             .getAggregatedValue(metricName, tagValues,
                                 getComposedMonitor().getFunction(),
-                                getComposedMonitor().getWindow(), (long) Utils.timeToMilliseconds(
+                                getComposedMonitor().getWindow(), Utils.timeToMilliseconds(
                                     getComposedMonitor().getSchedule().getTimeUnit(),
                                     getComposedMonitor().getSchedule().getInterval()) /* * 2 todo define offset*/,
                                 getComposedMonitor().getSchedule());
@@ -134,7 +135,7 @@ public class QuantifiedMapKairosAggregator extends ComposedKairosAggregator {
                             .getKairos(getIpCache().getIp(instance.getIpAddress()), getKairos().getDefaultPort() /* TODO dynamic storing per VM */)
                             .getAggregatedValue(metricName, tagValues,
                                 getComposedMonitor().getFunction(),
-                                getComposedMonitor().getWindow(), (long) Utils.timeToMilliseconds(
+                                getComposedMonitor().getWindow(), Utils.timeToMilliseconds(
                                     getComposedMonitor().getSchedule().getTimeUnit(),
                                     getComposedMonitor().getSchedule().getInterval()) /* * 2 todo define offset*/,
                                 getComposedMonitor().getSchedule());
@@ -197,7 +198,7 @@ public class QuantifiedMapKairosAggregator extends ComposedKairosAggregator {
             this.aggregate();
 
         } catch (Exception e) {
-            LOGGER.error("Monitor: " + getComposedMonitor().getId() + " failed setting values! (2)");
+            LOGGER.error("Monitor: " + getComposedMonitor().getId() + " failed setting values! (2) because of " + Throwables.getStackTraceAsString(e));
             e.printStackTrace();
         }
     }
