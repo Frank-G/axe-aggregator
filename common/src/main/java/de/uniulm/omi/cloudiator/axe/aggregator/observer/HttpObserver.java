@@ -22,6 +22,8 @@ public abstract class HttpObserver extends ThresholdObserver {
         super(externalId, threshold, operator);
 
         this.endpoint = endpoint;
+
+        this.openConnection();
     }
 
     protected void openConnection(){
