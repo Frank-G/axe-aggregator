@@ -69,8 +69,8 @@ public abstract class TelnetObserver extends NetworkThresholdObserver {
         /* TODO better solution to get the CDO id? */
         String externalRef = "";
         for(KeyValue kv : AggregatorService.getService(null, Constants.LOCALHOST_IP).getFc()
-                    .getMonitorInstance(obj.getIdMonitorInstance()).getEternalReferences()){
-            if(kv.getKey().equals("CDOID")){
+                    .getMonitorInstance(obj.getIdMonitorInstance()).getExternalReferences()){
+            if("CDOID".equals(kv.getKey()) || "CAMEL".equals(kv.getKey())){
                 externalRef = kv.getValue();
             }
         }
