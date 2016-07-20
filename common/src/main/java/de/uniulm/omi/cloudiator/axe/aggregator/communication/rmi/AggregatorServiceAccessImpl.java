@@ -18,6 +18,8 @@
 
 package de.uniulm.omi.cloudiator.axe.aggregator.communication.rmi;
 
+import com.google.common.base.Throwables;
+
 import de.uniulm.omi.cloudiator.axe.aggregator.AggregatorService;
 import de.uniulm.omi.cloudiator.axe.aggregator.communication.frontend.FrontendCommunicator;
 import de.uniulm.omi.cloudiator.axe.aggregator.communication.rmi.observer.Creation;
@@ -49,8 +51,7 @@ public class AggregatorServiceAccessImpl implements AggregatorServiceAccess {
         try {
             as.addAggregator(fc.getComposedMonitor(idMonitor));
         } catch (Exception e) {
-            LOGGER.error("Could not aggregate: " + idMonitor);
-            e.printStackTrace();
+            LOGGER.error("Could not aggregate: " + idMonitor + ", exception: "+ Throwables.getStackTraceAsString(e));
             //TODO add exception handling
         }
     }
@@ -64,8 +65,7 @@ public class AggregatorServiceAccessImpl implements AggregatorServiceAccess {
         try {
             as.removeAggregator(idMonitor);
         } catch (Exception e) {
-            LOGGER.error("Could not stop aggregation: " + idMonitor);
-            e.printStackTrace();
+            LOGGER.error("Could not stop aggregation: " + idMonitor + ", exception: " + Throwables.getStackTraceAsString(e));
             //TODO add exception handling
         }
     }

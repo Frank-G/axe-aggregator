@@ -18,6 +18,8 @@
 
 package de.uniulm.omi.cloudiator.axe.aggregator;
 
+import com.google.common.base.Throwables;
+
 import de.uniulm.omi.cloudiator.axe.aggregator.entities.ComposedMonitor;
 import de.uniulm.omi.cloudiator.axe.aggregator.entities.ConstantMonitor;
 import de.uniulm.omi.cloudiator.axe.aggregator.entities.MeasurementWindow;
@@ -238,8 +240,7 @@ public class QuantifiedReduceKairosAggregator extends ComposedKairosAggregator {
             this.aggregate();
 
         } catch (Exception e) {
-            LOGGER.error("Monitor: " + getComposedMonitor().getId() + " failed setting values! (3)");
-            e.printStackTrace();
+            LOGGER.error("Monitor: " + getComposedMonitor().getId() + " failed setting values! (3), exception: "+ Throwables.getStackTraceAsString(e));
         }
     }
 

@@ -18,6 +18,8 @@
 
 package de.uniulm.omi.cloudiator.axe.aggregator;
 
+import com.google.common.base.Throwables;
+
 import de.uniulm.omi.cloudiator.axe.aggregator.communication.frontend.FrontendCommunicator;
 import de.uniulm.omi.cloudiator.axe.aggregator.entities.ComposedMonitor;
 import de.uniulm.omi.cloudiator.axe.aggregator.entities.ConstantMonitor;
@@ -215,8 +217,7 @@ public class AggregatorService {
             try {
                 Thread.sleep(1500);
             } catch (InterruptedException e) {
-                LOGGER.error("Could not add observer to monitor due to retry-interruption");
-                e.printStackTrace();
+                LOGGER.error("Could not add observer to monitor due to retry-interruption, exception: "+ Throwables.getStackTraceAsString(e));
             }
 
             addObserverToMonitor(id, observer, ++retry);

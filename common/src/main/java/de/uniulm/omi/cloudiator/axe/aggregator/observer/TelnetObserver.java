@@ -18,6 +18,8 @@
 
 package de.uniulm.omi.cloudiator.axe.aggregator.observer;
 
+import com.google.common.base.Throwables;
+
 import de.uniulm.omi.cloudiator.axe.aggregator.AggregatorService;
 import de.uniulm.omi.cloudiator.axe.aggregator.communication.rmi.Constants;
 import de.uniulm.omi.cloudiator.axe.aggregator.entities.FormulaOperator;
@@ -48,8 +50,7 @@ public abstract class TelnetObserver extends NetworkThresholdObserver {
             pingSocket = new Socket(this.getServername(), this.getPort());
             out = new PrintWriter(pingSocket.getOutputStream(), true);
         } catch (IOException e) {
-            e.printStackTrace();
-            LOGGER.debug("Could not connect to telnet server.");
+            LOGGER.error("Could not connect to telnet server, exception: "+ Throwables.getStackTraceAsString(e));
         }
     }
 
@@ -96,8 +97,7 @@ public abstract class TelnetObserver extends NetworkThresholdObserver {
                 try {
                     exSocket.close();
                 } catch (IOException ex) {
-                    ex.printStackTrace();
-                    LOGGER.error("Could not close socket server.");
+                    LOGGER.error("Could not close socket server, exception: "+ Throwables.getStackTraceAsString(e));
                 }
             } finally {
 
@@ -109,8 +109,7 @@ public abstract class TelnetObserver extends NetworkThresholdObserver {
                 out.println(metricTelnet);
                 //pingSocket.close();
             } catch (IOException /**/ e) {
-                e.printStackTrace();
-                LOGGER.error("Could not send to telnet server (2).");
+                LOGGER.error("Could not send to telnet server (2), exception: "+ Throwables.getStackTraceAsString(e));
             }
         }
     }
