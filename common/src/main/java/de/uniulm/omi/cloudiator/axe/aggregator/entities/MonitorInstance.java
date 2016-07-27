@@ -27,15 +27,17 @@ public class MonitorInstance extends External {
     private final long idIpAddress;
     private final long vmId;
     private final long componentId;
+    private final Integer port;
 
     public MonitorInstance(long id, long idMonitor, String apiEndpoint, long idIpAddress, long vmId,
-        long componentId) {
+        long componentId, Integer port) {
         super(id);
         this.idMonitor = idMonitor;
         this.apiEndpoint = apiEndpoint;
         this.idIpAddress = idIpAddress;
         this.vmId = vmId;
         this.componentId = componentId;
+        this.port = port;
     }
 
     public long getIdMonitor() {
@@ -56,5 +58,9 @@ public class MonitorInstance extends External {
 
     public String getApiEndpoint() {
         return apiEndpoint;
+    }
+
+    public Integer getPort() {
+        return port;
     }
 }
