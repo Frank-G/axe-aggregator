@@ -25,18 +25,23 @@ import de.uniulm.omi.cloudiator.axe.aggregator.entities.placeholder.Id;
  */
 public final class SensorDescription extends Id {
 
-    public static final SensorDescription VMCPU_SENSOR =
-        new SensorDescription(0, "eu.paasage.sensors.cpu.VmCpuSensor", "VM_CPU", true);
+    public static final SensorDescription VM_CPU_SENSOR =
+        new SensorDescription(0, "eu.paasage.sensors.cpu.VmCpuSensor", "VM_CPU", true, false);
     public static final SensorDescription COMP_CPU_SENSOR =
-        new SensorDescription(0, "eu.paasage.sensors.cpu.CompCpuSensor", "Comp_CPU", false);
+        new SensorDescription(0, "eu.paasage.sensors.cpu.CompCpuSensor", "Comp_CPU", false, false);
 
     private final String className;
     private final String metricName;
     private final boolean isVmSensor;
+    private final boolean isPush;
 
 
     public boolean isVmSensor() {
         return isVmSensor;
+    }
+
+    public boolean isPush() {
+        return isPush;
     }
 
     public String getMetricName() {
@@ -47,11 +52,12 @@ public final class SensorDescription extends Id {
         return className;
     }
 
-    public SensorDescription(long id, String _className, String _metricName, boolean _isVmSensor) {
+    public SensorDescription(long id, String _className, String _metricName, boolean _isVmSensor, boolean _isPush) {
         super(id);
         this.className = _className;
         this.metricName = _metricName;
         this.isVmSensor = _isVmSensor;
+        this.isPush = _isPush;
     }
 
     public String getSensorMetricName() {
