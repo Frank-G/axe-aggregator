@@ -23,7 +23,7 @@ package de.uniulm.omi.cloudiator.axe.aggregator.communication.rmi;
  */
 public class Constants {
     public final static String REGISTRY_KEY = "Aggregator";
-    public final static int DEFAULT_RMI_PORT = 33033;
+    public final static int DEFAULT_RMI_PORT = 33039;
 
 
     public static final String LOCALHOST_IP = "127.0.0.1";
