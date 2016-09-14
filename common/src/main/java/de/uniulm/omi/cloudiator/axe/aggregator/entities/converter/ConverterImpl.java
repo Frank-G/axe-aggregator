@@ -91,7 +91,7 @@ public class ConverterImpl implements Converter {
     @Override public de.uniulm.omi.cloudiator.axe.aggregator.entities.SensorDescription convert(
         SensorDescription obj) {
         return new de.uniulm.omi.cloudiator.axe.aggregator.entities.SensorDescription(obj.getId(),
-            obj.getClassName(), obj.getMetricName(), obj.getIsVmSensor());
+            obj.getClassName(), obj.getMetricName(), obj.getIsVmSensor(), obj.getIsPush());
     }
 
     @Override
