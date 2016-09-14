@@ -157,7 +157,7 @@ public class QuantifiedReduceKairosAggregator extends ComposedKairosAggregator {
                 .isAggregationMappable(getComposedMonitor().getFunction())) {
 
                 for (MonitorInstance instance : entry.getValue()) {
-                    String ipAddress = getIpCache().getIp(instance.getIpAddress());
+                    String ipAddress = getIpCache().getEndpoint(instance.getApiEndpoint());
                     if (!tagValues.containsKey(ipAddress)) {
                         tagValues.put(ipAddress, new ArrayList<String>());
                     }
@@ -199,7 +199,7 @@ public class QuantifiedReduceKairosAggregator extends ComposedKairosAggregator {
                     tagValues.put(onlyEntry, singleId);
 
                     kairosAggregatedValues = getKairos()
-                        .getKairos(getIpCache().getIp(instance.getIpAddress()), getKairos().getDefaultPort() /* TODO dynamic storing per VM */)
+                        .getKairos(getIpCache().getEndpoint(instance.getApiEndpoint()), getKairos().getDefaultPort() /* TODO dynamic storing per VM */)
                         .getAggregatedValue(metricName, tagValues.get(onlyEntry),
                             getComposedMonitor().getFunction(), getComposedMonitor().getWindow(),
                             (long) Utils.timeToMilliseconds(

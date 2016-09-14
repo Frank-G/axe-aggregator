@@ -29,7 +29,6 @@ import java.util.concurrent.ConcurrentHashMap;
 public class IpCache {
     private static IpCache singleton;
 
-    private Map<Long, String> IPs = new ConcurrentHashMap<Long, String>(); // <id_ip, value_ip>
     private FrontendCommunicator fc;
     private String homeDomainIp;
 
@@ -57,28 +56,11 @@ public class IpCache {
         this.fc = fc;
     }
 
-    public String getIp(Long ip) {//TODO better add ip address per mi
-        if (ip == null) {
+    public String getEndpoint(String endpoint) {//TODO better add ip address per mi
+        if (endpoint == null || endpoint.isEmpty()) {
             return homeDomainIp; /* TODO only for the time being, that we have aggr. only in home domain */
         }
 
-        for (Map.Entry<Long, String> s : IPs.entrySet()) {
-            if (s.getKey().equals(ip)) {
-                return s.getValue();
-            }
-        }
-
-        // if not returned, ip not found in set
-        String address = fc.getIpAddress(ip);
-        IPs.put(ip, address);
-        return address;
-    }
-
-    public void refresh() {
-        for (Map.Entry<Long, String> s : IPs.entrySet()) {
-            String address = fc.getIpAddress(s.getKey());
-
-            s.setValue(address);
-        }
+        return endpoint;
     }
 }

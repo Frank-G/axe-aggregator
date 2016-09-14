@@ -77,7 +77,7 @@ public class ObservingKairosAggregator extends RawKairosAggregator {
                 tagValues.add(String.valueOf(instance.getId()));
 
                 List<Double> kairosAggregatedValues = getKairos()
-                    .getKairos(getIpCache().getIp(instance.getIpAddress()), getKairos().getDefaultPort() /* TODO dynamic storing per VM */)
+                    .getKairos(getIpCache().getEndpoint(instance.getApiEndpoint()), getKairos().getDefaultPort() /* TODO dynamic storing per VM */)
                     .getAggregatedValue(metricName, tagValues, FormulaOperator.LAST,
                         new TimeWindow(0, getMonitor().getSchedule().getInterval() * 2,
                             getMonitor().getSchedule().getTimeUnit()), (long) Utils
