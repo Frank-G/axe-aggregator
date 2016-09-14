@@ -480,7 +480,9 @@ public class RemoteFrontendCommunicator implements FrontendCommunicator {
         List<IpAddress> instances = controller.getList();
 
         for (IpAddress ip : instances) {
-            if (ip.getId().equals(instance.getIpAddress())) {
+            String ipAddress = this.getIpAddress(ip.getId());
+
+            if (ipAddress != null && ipAddress.equals(instance.getApiEndpoint())) {
                 return ip.getIp();
             }
         }

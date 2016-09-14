@@ -255,6 +255,11 @@ public class KairosDbConnection {
             // TODO if size < measurments: return getAggregatedValue with higher schedule and at least 5 times
         }
 
+        if(result.isEmpty()){
+            LOGGER.debug("Empty result for query: ");
+            logFailedQuery(builder, response, parameterCache);
+        }
+
         return result;
     }
 
