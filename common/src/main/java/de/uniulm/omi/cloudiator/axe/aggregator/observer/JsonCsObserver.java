@@ -22,10 +22,14 @@ public class JsonCsObserver extends HttpObserver {
         //TODO add exception handling
 
         try {
+            //TODO dont close and open it each time, but use the running connection
+            openConnection();
+
             getConnection().setRequestMethod("POST");
             getConnection().setRequestProperty("User-Agent", USER_AGENT);
             getConnection().setRequestProperty("Accept-Language", "en-US,en;q=0.5");
             getConnection().setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+            getConnection().setDoOutput(true);
 
             String jsonString = "";
 
@@ -40,7 +44,6 @@ public class JsonCsObserver extends HttpObserver {
 
 
             // Send post request
-            getConnection().setDoOutput(true);
             DataOutputStream wr = new DataOutputStream(getConnection().getOutputStream());
             wr.writeBytes(jsonString);
             wr.flush();
