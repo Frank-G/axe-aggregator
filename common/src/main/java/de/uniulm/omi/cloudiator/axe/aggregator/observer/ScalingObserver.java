@@ -30,6 +30,8 @@ public class ScalingObserver extends ThresholdObserver {
     private final ColosseumDetails colosseumDetails;
     private final FrontendCommunicator fc;
 
+    private Long lastCreatedInstance = null;
+
     public ScalingObserver(double threshold, FormulaOperator operator,
         ColosseumDetails colosseumDetails) {
         super(null /*TODO check this */, threshold, operator);
@@ -49,24 +51,35 @@ public class ScalingObserver extends ThresholdObserver {
         LOGGER.info(
             "Now this should actually engage a scaling action via the FrontendCommunicator! But its not implemented yet...");
 
+        if(lastCreatedInstance != null && !fc.isInstanceOk(lastCreatedInstance)){
+            LOGGER.info("Could not trigger new scaling action, since the last one is not yet finished.");
+            return;
+        }
+
         // Get scaling actions that are referenced to this
         ComposedMonitor cm = fc.getComposedMonitor(fc.getMonitorInstance(obj.getIdMonitor()).getMonitor());
         for(ScalingAction sa : cm.getScalingActions()){
             if (sa instanceof ComponentHorizontalInScalingAction) {
+                LOGGER.info("Initiate In-Scaling.");
                 ComponentHorizontalInScalingAction in = (ComponentHorizontalInScalingAction)sa;
 
                 // DELETE component
                 int amountOfInstances = fc.getAmountOfComponentInstances(in.getComponent());
                 if(amountOfInstances > in.getMin()){
                     fc.removeLatestComponentInstance(in.getComponent());
+                } else {
+                    LOGGER.info("Already MIN reached.");
                 }
             } else if(sa instanceof ComponentHorizontalOutScalingAction) {
+                LOGGER.info("Initiate Out-Scaling.");
                 ComponentHorizontalOutScalingAction out = (ComponentHorizontalOutScalingAction)sa;
 
                 // ADD component
                 int amountOfInstances = fc.getAmountOfComponentInstances(out.getComponent());
                 if (amountOfInstances < out.getMax()) {
-                    fc.addAnotherComponentInstance(out.getComponent());
+                    lastCreatedInstance = fc.addAnotherComponentInstance(out.getComponent());
+                } else {
+                    LOGGER.info("Already MAX reached.");
                 }
             } else {
                 throw new RuntimeException("ScalingType was not implemented: " + sa.getClass().toString());

@@ -30,6 +30,7 @@ import de.uniulm.omi.cloudiator.colosseum.client.entities.*;
 import de.uniulm.omi.cloudiator.colosseum.client.entities.abstracts.Monitor;
 import de.uniulm.omi.cloudiator.colosseum.client.entities.abstracts.ScalingAction;
 import de.uniulm.omi.cloudiator.colosseum.client.entities.abstracts.Window;
+import de.uniulm.omi.cloudiator.colosseum.client.entities.enums.RemoteState;
 import de.uniulm.omi.cloudiator.colosseum.client.entities.internal.Entity;
 
 import java.util.ArrayList;
@@ -605,7 +606,7 @@ public class RemoteFrontendCommunicator implements FrontendCommunicator {
     }
 
     @Override
-    public void addAnotherComponentInstance(Long appComponent) {
+    public Long addAnotherComponentInstance(Long appComponent) {
         List<Instance> allInstances = this.get(Instance.class).getList();
 
         Instance anyInstance = null;
@@ -655,7 +656,14 @@ public class RemoteFrontendCommunicator implements FrontendCommunicator {
                 vm.getId()
         );
 
-        this.get(Instance.class).create(newInstance);
+        newInstance = this.get(Instance.class).create(newInstance);
+        return newInstance.getId();
+    }
+
+    @Override
+    public boolean isInstanceOk(long instance) {
+        Instance obj = this.get(Instance.class).get(instance);
+        return (obj != null && obj.getRemoteState().equals(RemoteState.OK));
     }
 
     @Override
