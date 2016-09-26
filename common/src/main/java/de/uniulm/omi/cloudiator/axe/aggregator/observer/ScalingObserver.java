@@ -49,12 +49,9 @@ public class ScalingObserver extends ThresholdObserver {
     @Override public void update(Measurement obj) {
         // get the scaling action(s) via the monitor: obj.getIdMonitor();
         LOGGER.info(
-            "Now this should actually engage a scaling action via the FrontendCommunicator! But its not implemented yet...");
+            "Now this should actually engage a scaling action via the FrontendCommunicator!" +
+                    "But its not implemented yet. So we start it here");
 
-        if(lastCreatedInstance != null && !fc.isInstanceOk(lastCreatedInstance)){
-            LOGGER.info("Could not trigger new scaling action, since the last one is not yet finished.");
-            return;
-        }
 
         // Get scaling actions that are referenced to this
         ComposedMonitor cm = fc.getComposedMonitor(fc.getMonitorInstance(obj.getIdMonitor()).getMonitor());
@@ -71,6 +68,13 @@ public class ScalingObserver extends ThresholdObserver {
                     LOGGER.info("Already MIN reached.");
                 }
             } else if(sa instanceof ComponentHorizontalOutScalingAction) {
+                // Currently only cooldown for scale out, since you
+                // can not check state of deleted instances.
+                if(lastCreatedInstance != null && !fc.isInstanceOk(lastCreatedInstance)){
+                    LOGGER.info("Could not trigger new scaling action, since the last one is not yet finished.");
+                    return;
+                }
+
                 LOGGER.info("Initiate Out-Scaling.");
                 ComponentHorizontalOutScalingAction out = (ComponentHorizontalOutScalingAction)sa;
 
