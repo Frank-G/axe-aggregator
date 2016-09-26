@@ -198,7 +198,8 @@ public class QuantifiedMapKairosAggregator extends ComposedKairosAggregator {
             this.aggregate();
 
         } catch (Exception e) {
-            LOGGER.error("Monitor: " + getComposedMonitor().getId() + " failed setting values! (2) because of " + Throwables.getStackTraceAsString(e));
+            LOGGER.error("Monitor: " + getComposedMonitor().getId() + " failed setting values! (2) because of "
+                    + Throwables.getStackTraceAsString(e), e);
         }
     }
 

@@ -240,7 +240,8 @@ public class QuantifiedReduceKairosAggregator extends ComposedKairosAggregator {
             this.aggregate();
 
         } catch (Exception e) {
-            LOGGER.error("Monitor: " + getComposedMonitor().getId() + " failed setting values! (3), exception: "+ Throwables.getStackTraceAsString(e));
+            LOGGER.error("Monitor: " + getComposedMonitor().getId() + " failed setting values! (3), exception: "
+                    + Throwables.getStackTraceAsString(e), e);
         }
     }
 
