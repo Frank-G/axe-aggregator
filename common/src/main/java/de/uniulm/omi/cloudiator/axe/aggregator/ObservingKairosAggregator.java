@@ -121,7 +121,8 @@ public class ObservingKairosAggregator extends RawKairosAggregator {
             this.aggregate();
 
         } catch (Exception e) {
-            LOGGER.error("Monitor: " + getMonitor().getId() + " failed setting values! (1), exception: "+ Throwables.getStackTraceAsString(e));
+            LOGGER.error("Monitor: " + getMonitor().getId() + " failed setting values! (1), exception: "
+                    + Throwables.getStackTraceAsString(e), e);
         }
     }
 
