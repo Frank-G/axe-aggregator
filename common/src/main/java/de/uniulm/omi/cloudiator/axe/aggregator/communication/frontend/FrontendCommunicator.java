@@ -97,5 +97,7 @@ public interface FrontendCommunicator {
 
     void removeLatestComponentInstance(Long appComponent);
 
-    void addAnotherComponentInstance(Long appComponent);
+    Long addAnotherComponentInstance(Long appComponent);
+
+    boolean isInstanceOk(long instance);
 }
