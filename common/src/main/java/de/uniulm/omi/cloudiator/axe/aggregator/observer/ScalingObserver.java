@@ -32,9 +32,9 @@ public class ScalingObserver extends ThresholdObserver {
 
     private Long lastCreatedInstance = null;
 
-    public ScalingObserver(double threshold, FormulaOperator operator,
+    public ScalingObserver(String externalId, double threshold, FormulaOperator operator,
         ColosseumDetails colosseumDetails) {
-        super(null /*TODO check this */, threshold, operator);
+        super(externalId, threshold, operator);
 
         this.colosseumDetails = colosseumDetails;
         this.fc = new RemoteFrontendCommunicator();

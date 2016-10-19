@@ -18,7 +18,14 @@
 
 package de.uniulm.omi.cloudiator.axe.aggregator.communication.rmi.observer;
 
-import de.uniulm.omi.cloudiator.axe.aggregator.observer.*;
+
+import de.uniulm.omi.cloudiator.axe.aggregator.communication.rmi.observer.internal.ObserverParameter;
+
+import de.uniulm.omi.cloudiator.axe.aggregator.observer.JsonCsObserver;
+import de.uniulm.omi.cloudiator.axe.aggregator.observer.Observer;
+import de.uniulm.omi.cloudiator.axe.aggregator.observer.ScalingObserver;
+import de.uniulm.omi.cloudiator.axe.aggregator.observer.TelnetEventObserver;
+import de.uniulm.omi.cloudiator.axe.aggregator.observer.TelnetMetricObserver;
 
 /**
  * Created by Frank on 24.08.2015.
@@ -39,7 +46,7 @@ public class Creation {
                     p.getEndpoint());
         } else if (params instanceof ScalingObserverParameter) {
             ScalingObserverParameter p = (ScalingObserverParameter) params;
-            return new ScalingObserver(p.getThreshold(), p.getOperator(),
+            return new ScalingObserver(p.getExternalId(), p.getThreshold(), p.getOperator(),
                     p.getColosseumDetails());
         } else {
             throw new RuntimeException("Observer type not implemented!");
