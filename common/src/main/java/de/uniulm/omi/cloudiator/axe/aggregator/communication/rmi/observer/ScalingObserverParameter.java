@@ -19,22 +19,23 @@
 package de.uniulm.omi.cloudiator.axe.aggregator.communication.rmi.observer;
 
 import de.uniulm.omi.cloudiator.axe.aggregator.communication.rmi.ColosseumDetails;
+import de.uniulm.omi.cloudiator.axe.aggregator.communication.rmi.observer.internal.ExternalReferenced;
+import de.uniulm.omi.cloudiator.axe.aggregator.communication.rmi.observer.internal.NetworkParameter;
+import de.uniulm.omi.cloudiator.axe.aggregator.communication.rmi.observer.internal.ObserverParameter;
+import de.uniulm.omi.cloudiator.axe.aggregator.communication.rmi.observer.internal.ThresholdParameter;
 import de.uniulm.omi.cloudiator.axe.aggregator.entities.FormulaOperator;
+
+import java.io.Serializable;
+import java.rmi.Remote;
 
 /**
  * Created by Frank on 25.08.2015.
  */
-public class ScalingObserverParameter extends ThresholdObserverParameter {
-    private final ColosseumDetails colosseumDetails;
+public interface ScalingObserverParameter extends
+        ObserverParameter,
+        ExternalReferenced,
+        NetworkParameter,
+        ThresholdParameter {
 
-    public ScalingObserverParameter(Double threshold, FormulaOperator operator,
-                                    ColosseumDetails colosseumDetails) {
-        super(threshold, operator);
-
-        this.colosseumDetails = colosseumDetails;
-    }
-
-    public ColosseumDetails getColosseumDetails() {
-        return colosseumDetails;
-    }
+    ColosseumDetails getColosseumDetails();
 }

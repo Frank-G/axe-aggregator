@@ -18,7 +18,7 @@
 
 package de.uniulm.omi.cloudiator.axe.aggregator.communication.rmi;
 
-import de.uniulm.omi.cloudiator.axe.aggregator.communication.rmi.observer.ObserverParameter;
+import de.uniulm.omi.cloudiator.axe.aggregator.communication.rmi.observer.internal.ObserverParameter;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;

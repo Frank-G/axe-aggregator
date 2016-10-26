@@ -23,8 +23,7 @@ import com.google.common.base.Throwables;
 import de.uniulm.omi.cloudiator.axe.aggregator.AggregatorService;
 import de.uniulm.omi.cloudiator.axe.aggregator.communication.frontend.FrontendCommunicator;
 import de.uniulm.omi.cloudiator.axe.aggregator.communication.rmi.observer.Creation;
-import de.uniulm.omi.cloudiator.axe.aggregator.communication.rmi.observer.ObserverParameter;
-import de.uniulm.omi.cloudiator.axe.aggregator.config.CommandLinePropertiesAccessor;
+import de.uniulm.omi.cloudiator.axe.aggregator.communication.rmi.observer.internal.ObserverParameter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

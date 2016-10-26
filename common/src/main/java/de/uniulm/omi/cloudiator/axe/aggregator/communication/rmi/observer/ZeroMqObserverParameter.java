@@ -18,14 +18,21 @@
 
 package de.uniulm.omi.cloudiator.axe.aggregator.communication.rmi.observer;
 
+import de.uniulm.omi.cloudiator.axe.aggregator.communication.rmi.observer.internal.ExternalReferenced;
+import de.uniulm.omi.cloudiator.axe.aggregator.communication.rmi.observer.internal.NetworkParameter;
+import de.uniulm.omi.cloudiator.axe.aggregator.communication.rmi.observer.internal.ObserverParameter;
+import de.uniulm.omi.cloudiator.axe.aggregator.communication.rmi.observer.internal.ThresholdParameter;
 import de.uniulm.omi.cloudiator.axe.aggregator.entities.FormulaOperator;
+
+import java.io.Serializable;
+import java.rmi.Remote;
 
 /**
  * Created by Frank on 26.08.2015.
  */
-public class ZeroMqObserverParameter extends ExternalObserverParameter {
-    public ZeroMqObserverParameter(Double threshold, FormulaOperator operator, String servername,
-        Integer port, String externalId) {
-        super(threshold, operator, servername, port, externalId);
-    }
+public interface ZeroMqObserverParameter extends
+        ObserverParameter,
+        ExternalReferenced,
+        NetworkParameter,
+        ThresholdParameter {
 }
