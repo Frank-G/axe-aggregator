@@ -99,7 +99,7 @@ public class QuantifiedMapKairosAggregator extends ComposedKairosAggregator {
                                 getComposedMonitor().getSchedule());
 
                         if (kairosAggregatedValues.isEmpty()) {
-                            LOGGER.error("No Values aggregated for: " + metricName + " with tags "
+                            LOGGER.debug("No Values aggregated for: " + metricName + " with tags "
                                 + tagValues.toString());
                         } else {
                             //TODO use all or just the last?
@@ -141,7 +141,7 @@ public class QuantifiedMapKairosAggregator extends ComposedKairosAggregator {
                                 getComposedMonitor().getSchedule());
 
                         if (kairosAggregatedValues.isEmpty()) {
-                            LOGGER.error("No Values aggregated for: " + metricName + " with tags "
+                            LOGGER.debug("No Values aggregated for: " + metricName + " with tags "
                                 + tagValues.toString());
                         } else {
                             //TODO use all or just the last?

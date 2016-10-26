@@ -86,7 +86,7 @@ public class ObservingKairosAggregator extends RawKairosAggregator {
                         getMonitor().getSchedule());
 
                 if (kairosAggregatedValues.isEmpty()) {
-                    LOGGER.error(
+                    LOGGER.debug(
                         "No Values aggregated for: " + metricName + " with tags " + tagValues
                             .toString());
                 } else {
