@@ -2,6 +2,7 @@ de.uniulm.omi.cloudiator.axe.aggregator
 de.uniulm.omi.cloudiator.axe.aggregator.communication.frontend
 de.uniulm.omi.cloudiator.axe.aggregator.communication.rmi
 de.uniulm.omi.cloudiator.axe.aggregator.communication.rmi.observer
+de.uniulm.omi.cloudiator.axe.aggregator.communication.rmi.observer.internal
 de.uniulm.omi.cloudiator.axe.aggregator.config
 de.uniulm.omi.cloudiator.axe.aggregator.entities
 de.uniulm.omi.cloudiator.axe.aggregator.entities.converter
