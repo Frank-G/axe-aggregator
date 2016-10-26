@@ -3,6 +3,6 @@ package de.uniulm.omi.cloudiator.axe.aggregator.communication.rmi.observer.inter
 /**
  * Created by Frank on 19.10.2016.
  */
-public interface ExternalReferenced {
+public interface ExternalReferenced extends ObserverParameter {
     String getExternalId();
 }

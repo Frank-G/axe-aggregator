@@ -235,7 +235,9 @@ public class AggregatorService {
                 }
             }
             for (de.uniulm.omi.cloudiator.axe.aggregator.observer.Observer ob : toRemove) {
+                LOGGER.info("Removing observer: " + identifier);
                 agg.getObservers().remove(ob);
+                LOGGER.info("Removed observer.");
             }
         }
     }

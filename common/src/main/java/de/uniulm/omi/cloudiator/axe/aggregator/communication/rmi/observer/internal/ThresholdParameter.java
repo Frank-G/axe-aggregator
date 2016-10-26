@@ -5,7 +5,7 @@ import de.uniulm.omi.cloudiator.axe.aggregator.entities.FormulaOperator;
 /**
  * Created by Frank on 19.10.2016.
  */
-public interface ThresholdParameter {
+public interface ThresholdParameter extends ObserverParameter {
     Double getThreshold();
     FormulaOperator getOperator();
 }

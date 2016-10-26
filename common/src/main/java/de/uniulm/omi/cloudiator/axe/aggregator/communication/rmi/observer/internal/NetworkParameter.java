@@ -3,7 +3,7 @@ package de.uniulm.omi.cloudiator.axe.aggregator.communication.rmi.observer.inter
 /**
  * Created by Frank on 19.10.2016.
  */
-public interface NetworkParameter {
+public interface NetworkParameter extends ObserverParameter {
     String getServername();
     Integer getPort();
 }
