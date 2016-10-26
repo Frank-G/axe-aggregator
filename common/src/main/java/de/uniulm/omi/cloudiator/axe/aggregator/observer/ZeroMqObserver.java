@@ -57,7 +57,7 @@ public class ZeroMqObserver extends NetworkThresholdObserver {
             try {
                 sendEvent();
             } catch (Exception ex) {
-                LOGGER.error("Error occured while pushing to ZeroMQ: " + ex.getMessage());
+                LOGGER.error("Error occurred while pushing to ZeroMQ: " + ex.getMessage());
 
                 initZeroMq();
                 this.update(obj, false);

@@ -111,7 +111,7 @@ public class QuantifiedReduceKairosAggregator extends ComposedKairosAggregator {
 
             if (this.mappedMonitor == null) {
                 //TODO
-                LOGGER.error(
+                LOGGER.debug(
                     "Non-relative quantifiers without mapped monitor are not implemented atm.");
             } else {
                 calculateQuantifiedValuesWithMappedMonitor(mappedMonitor.getValue());
@@ -214,7 +214,7 @@ public class QuantifiedReduceKairosAggregator extends ComposedKairosAggregator {
                         //values.add(kairosAggregatedValues.get(kairosAggregatedValues.size()-1));
                         values.addAll(kairosAggregatedValues);
                     } else {
-                        LOGGER.error(
+                        LOGGER.debug(
                             "No values aggregated for: " + metricName + " with tags " + tagValues
                                 .toString());
                     }

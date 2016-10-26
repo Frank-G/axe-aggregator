@@ -18,6 +18,7 @@
 
 package de.uniulm.omi.cloudiator.axe.aggregator.communication.frontend;
 
+import de.uniulm.omi.cloudiator.axe.aggregator.AggregatorService;
 import de.uniulm.omi.cloudiator.axe.aggregator.communication.rmi.ColosseumDetails;
 import de.uniulm.omi.cloudiator.axe.aggregator.entities.converter.Converter;
 import de.uniulm.omi.cloudiator.axe.aggregator.entities.converter.ConverterImpl;
@@ -32,6 +33,8 @@ import de.uniulm.omi.cloudiator.colosseum.client.entities.abstracts.ScalingActio
 import de.uniulm.omi.cloudiator.colosseum.client.entities.abstracts.Window;
 import de.uniulm.omi.cloudiator.colosseum.client.entities.enums.RemoteState;
 import de.uniulm.omi.cloudiator.colosseum.client.entities.internal.Entity;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,6 +68,9 @@ public class RemoteFrontendCommunicator implements FrontendCommunicator {
     private ClientBuilder clientBuilder;
     private SingletonFactory csf;
     private Converter converter;
+
+
+    public static final Logger LOGGER = LogManager.getLogger(RemoteFrontendCommunicator.class);
 
     public RemoteFrontendCommunicator() {
         // in this case init is required afterwards
@@ -145,7 +151,7 @@ public class RemoteFrontendCommunicator implements FrontendCommunicator {
                 appComps = new ArrayList<ApplicationComponent>();
                 for (Instance instance : instances) {
                     if (instance.getVirtualMachine() == getIdFromLink(vm.getSelfLink())) {
-                        System.out.println(
+                        LOGGER.debug(
                             "Instance " + getIdFromLink(instance.getSelfLink()) + " belongs to VM "
                                 + getIdFromLink(vm.getSelfLink()));
                         appComps.add(

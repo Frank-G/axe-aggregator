@@ -178,20 +178,19 @@ public class AggregatorService {
     //    }
 
     synchronized public void removeAggregator(Long monitorId) {
-        System.out.println("Start Deleting Monitor: " + monitorId);
+        LOGGER.debug("Start Deleting Monitor: " + monitorId);
 
         boolean found = false;
         int index = 0;
         while (!found && index < aggregators.size()) {
             if (monitorId.equals(aggregators.get(index).getMonitorId())) {
-                System.out.println("Done Deleting Monitor: " + monitorId);
+                LOGGER.debug("Done Deleting Monitor: " + monitorId);
 
                 aggregators.get(index).unschedule();
                 aggregators.remove(index);
                 found = true;
             } else {
-                System.out
-                    .println(monitorId + " is not " + aggregators.get(index).getMonitorId());
+                LOGGER.debug(monitorId + " is not " + aggregators.get(index).getMonitorId());
             }
             index++;
         }

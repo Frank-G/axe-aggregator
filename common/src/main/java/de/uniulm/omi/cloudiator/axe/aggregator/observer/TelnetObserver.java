@@ -81,7 +81,7 @@ public abstract class TelnetObserver extends NetworkThresholdObserver {
         metricTelnet += obj.getMeasurement() + split;
         metricTelnet += obj.getTimeStamp();
 
-        LOGGER.error("Send this: " + metricTelnet);
+        LOGGER.debug("Send this: " + metricTelnet);
 
         if (firstTry) {
             Socket exSocket = pingSocket;
@@ -92,7 +92,7 @@ public abstract class TelnetObserver extends NetworkThresholdObserver {
                     throw new IOException();
             } catch (Exception e) {
                 this.update(obj, false);
-                LOGGER.error("second try.");
+                LOGGER.debug("second try.");
                 exPrintWriter.close();
                 try {
                     exSocket.close();

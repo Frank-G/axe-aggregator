@@ -50,7 +50,7 @@ public class JsonCsObserver extends HttpObserver {
             wr.close();
 
             int responseCode = getConnection().getResponseCode();
-            System.out.println("Response Code : " + responseCode);
+            LOGGER.debug("Response Code : " + responseCode);
 
             BufferedReader in = new BufferedReader(
                     new InputStreamReader(getConnection().getInputStream()));
