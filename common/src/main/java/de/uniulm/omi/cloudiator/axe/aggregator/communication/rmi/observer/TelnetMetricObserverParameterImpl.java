@@ -11,7 +11,7 @@ import de.uniulm.omi.cloudiator.axe.aggregator.entities.FormulaOperator;
 /**
  * Created by Frank on 19.10.2016.
  */
-public class TelnetMetricObserverParameterImpl implements ZeroMqObserverParameter{
+public class TelnetMetricObserverParameterImpl implements TelnetMetricObserverParameter{
     private final ExternalReferenced externalReferenced;
     private final ThresholdParameter thresholdParameter;
     private final NetworkParameter networkParameter;
