@@ -18,7 +18,6 @@
 
 package de.uniulm.omi.cloudiator.axe.aggregator.communication.frontend;
 
-import de.uniulm.omi.cloudiator.axe.aggregator.AggregatorService;
 import de.uniulm.omi.cloudiator.axe.aggregator.communication.rmi.ColosseumDetails;
 import de.uniulm.omi.cloudiator.axe.aggregator.entities.converter.Converter;
 import de.uniulm.omi.cloudiator.axe.aggregator.entities.converter.ConverterImpl;
@@ -77,12 +76,12 @@ public class RemoteFrontendCommunicator implements FrontendCommunicator {
     }
 
     public RemoteFrontendCommunicator(String protocol, String ip, int port, String username,
-        String tenant, String password) {
+                                      String tenant, String password) {
         this.init(protocol, ip, port, username, tenant, password);
     }
 
     public void init(String protocol, String ip, int port, String username, String tenant,
-        String password) {
+                     String password) {
         this.ip = ip;
         this.port = port;
         this.protocol = protocol;
@@ -91,10 +90,10 @@ public class RemoteFrontendCommunicator implements FrontendCommunicator {
         this.password = password;
 
         this.clientBuilder = ClientBuilder.getNew()
-            // the base url
-            .url(protocol + "://" + ip + ":" + port + "/api")
+                // the base url
+                .url(protocol + "://" + ip + ":" + port + "/api")
                 // the login credentials
-            .credentials(username, tenant, password);
+                .credentials(username, tenant, password);
 
         cl = clientBuilder.build();
 
@@ -103,15 +102,17 @@ public class RemoteFrontendCommunicator implements FrontendCommunicator {
         converter = new ConverterImpl(this);
     }
 
-    @Override public void updateCredentials(String protocol, String ip, int port, String username,
-        String tenant, String password) {
+    @Override
+    public void updateCredentials(String protocol, String ip, int port, String username,
+                                  String tenant, String password) {
         this.init(protocol, ip, port, username, tenant, password);
     }
 
-    @Override public void updateCredentials(ColosseumDetails colosseumDetails) {
+    @Override
+    public void updateCredentials(ColosseumDetails colosseumDetails) {
         this.init(colosseumDetails.getProtocol(), colosseumDetails.getIp(),
-            colosseumDetails.getPort(), colosseumDetails.getUsername(),
-            colosseumDetails.getTenant(), colosseumDetails.getPassword());
+                colosseumDetails.getPort(), colosseumDetails.getUsername(),
+                colosseumDetails.getTenant(), colosseumDetails.getPassword());
     }
 
     private <T extends Entity> ClientController<T> get(Class<T> type) {
@@ -129,14 +130,14 @@ public class RemoteFrontendCommunicator implements FrontendCommunicator {
         return agent;
     }*/
 
-    @Override public List<VirtualMachine> getVirtualMachines(long applicationId, long componentId,
-        long instanceId, long cloudId) {
+    @Override
+    public List<VirtualMachine> getVirtualMachines(long applicationId, long componentId,
+                                                   long instanceId, long cloudId) {
         List<VirtualMachine> vms;
         List<VirtualMachine> result = new ArrayList<VirtualMachine>();
 
         ClientController<VirtualMachine> vmController = this.get(VirtualMachine.class);
         vms = vmController.getList();
-
 
 
         for (VirtualMachine vm : vms) {
@@ -152,10 +153,10 @@ public class RemoteFrontendCommunicator implements FrontendCommunicator {
                 for (Instance instance : instances) {
                     if (instance.getVirtualMachine() == getIdFromLink(vm.getSelfLink())) {
                         LOGGER.debug(
-                            "Instance " + getIdFromLink(instance.getSelfLink()) + " belongs to VM "
-                                + getIdFromLink(vm.getSelfLink()));
+                                "Instance " + getIdFromLink(instance.getSelfLink()) + " belongs to VM "
+                                        + getIdFromLink(vm.getSelfLink()));
                         appComps.add(
-                            getApplicationComponentForInstance(instance.getApplicationComponent()));
+                                getApplicationComponentForInstance(instance.getApplicationComponent()));
                     }
                 }
 
@@ -177,7 +178,7 @@ public class RemoteFrontendCommunicator implements FrontendCommunicator {
                     appComps = new ArrayList<ApplicationComponent>();
                     for (Instance instance : instances) {
                         appComps.add(
-                            getApplicationComponentForInstance(instance.getApplicationComponent()));
+                                getApplicationComponentForInstance(instance.getApplicationComponent()));
                     }
                 }
 
@@ -224,7 +225,8 @@ public class RemoteFrontendCommunicator implements FrontendCommunicator {
         return result;
     }
 
-    @Override public List<Instance> getInstances(long vm) {
+    @Override
+    public List<Instance> getInstances(long vm) {
         List<Instance> instances;
         List<Instance> result = new ArrayList<Instance>();
 
@@ -249,16 +251,19 @@ public class RemoteFrontendCommunicator implements FrontendCommunicator {
         return result;
     }
 
-    @Override public ApplicationComponent getApplicationComponentForInstance(long appCompId) {
+    @Override
+    public ApplicationComponent getApplicationComponentForInstance(long appCompId) {
         ClientController<ApplicationComponent> controller = this.get(ApplicationComponent.class);
         return controller.get(appCompId);
     }
 
-    @Override public long getIdFromLink(String link) {
+    @Override
+    public long getIdFromLink(String link) {
         return Long.parseLong(link.substring(link.lastIndexOf('/') + 1));
     }
 
-    @Override public String getPublicAddressOfVM(VirtualMachine vm) {
+    @Override
+    public String getPublicAddressOfVM(VirtualMachine vm) {
         long vmId = getIdFromLink(vm.getSelfLink());
 
 
@@ -275,8 +280,9 @@ public class RemoteFrontendCommunicator implements FrontendCommunicator {
         return null;
     }
 
-    @Override public List<LifecycleComponent> getComponents(long applicationId, long componentId,
-        long instanceId, long cloudId) {
+    @Override
+    public List<LifecycleComponent> getComponents(long applicationId, long componentId,
+                                                  long instanceId, long cloudId) {
         List<LifecycleComponent> result = new ArrayList<LifecycleComponent>();
         List<LifecycleComponent> components = get(LifecycleComponent.class).getList();
         List<Instance> instances = null;
@@ -295,7 +301,6 @@ public class RemoteFrontendCommunicator implements FrontendCommunicator {
                     }
                 }
             }
-
 
 
             if (Check.idNotNull(componentId)) {
@@ -353,12 +358,12 @@ public class RemoteFrontendCommunicator implements FrontendCommunicator {
         }
 
 
-
         return result;
     }
 
-    @Override public boolean isInstanceOf(Instance instance, List<ApplicationComponent> appComps,
-        LifecycleComponent component) {
+    @Override
+    public boolean isInstanceOf(Instance instance, List<ApplicationComponent> appComps,
+                                LifecycleComponent component) {
         boolean result = false;
 
         long componentId = getIdFromLink(component.getSelfLink());
@@ -389,11 +394,13 @@ public class RemoteFrontendCommunicator implements FrontendCommunicator {
         return result;
     }
 
-    @Override public String getIpAddress(long idIpAddress) {
+    @Override
+    public String getIpAddress(long idIpAddress) {
         return get(IpAddress.class).get(idIpAddress).getIp();
     }
 
-    @Override public long getIdPublicAddressOfVM(VirtualMachine vm) {
+    @Override
+    public long getIdPublicAddressOfVM(VirtualMachine vm) {
         long vmId = getIdFromLink(vm.getSelfLink());
 
 
@@ -410,7 +417,8 @@ public class RemoteFrontendCommunicator implements FrontendCommunicator {
         return 0;
     }
 
-    @Override public Long getVirtualMachineToIP(String ipAddress) {
+    @Override
+    public Long getVirtualMachineToIP(String ipAddress) {
         Long result = null;
 
         for (IpAddress ip : get(IpAddress.class).getList()) {
@@ -422,11 +430,12 @@ public class RemoteFrontendCommunicator implements FrontendCommunicator {
         return result;
     }
 
-    @Override public Long getApplicationIdByName(String name) {
+    @Override
+    public Long getApplicationIdByName(String name) {
         Long result = null;
 
         for (de.uniulm.omi.cloudiator.colosseum.client.entities.Application app : get(
-            de.uniulm.omi.cloudiator.colosseum.client.entities.Application.class).getList()) {
+                de.uniulm.omi.cloudiator.colosseum.client.entities.Application.class).getList()) {
             if (app.getName().equals(name)) {
                 result = getIdFromLink(app.getSelfLink());
                 break;
@@ -436,13 +445,14 @@ public class RemoteFrontendCommunicator implements FrontendCommunicator {
         return result;
     }
 
-    @Override public Long getComponentIdByName(String name) {
+    @Override
+    public Long getComponentIdByName(String name) {
         Long result = null;
 
         /* TODO NOT ONLY LC COMPONENT */
         for (de.uniulm.omi.cloudiator.colosseum.client.entities.LifecycleComponent component : get(
-            de.uniulm.omi.cloudiator.colosseum.client.entities.LifecycleComponent.class)
-            .getList()) {
+                de.uniulm.omi.cloudiator.colosseum.client.entities.LifecycleComponent.class)
+                .getList()) {
             if (component.getName().equals(name)) {
                 result = getIdFromLink(component.getSelfLink());
                 break;
@@ -453,7 +463,8 @@ public class RemoteFrontendCommunicator implements FrontendCommunicator {
     }
 
 
-    @Override public List<MonitorInstance> getMonitorInstances(long idMonitor) {
+    @Override
+    public List<MonitorInstance> getMonitorInstances(long idMonitor) {
         List<MonitorInstance> result = new ArrayList<MonitorInstance>();
 
 
@@ -470,7 +481,8 @@ public class RemoteFrontendCommunicator implements FrontendCommunicator {
         return result;
     }
 
-    @Override public List<Long> getMonitorInstanceIDs(long idMonitor) {
+    @Override
+    public List<Long> getMonitorInstanceIDs(long idMonitor) {
         List<MonitorInstance> monitorInstances = getMonitorInstances(idMonitor);
         List<Long> result = new ArrayList<Long>();
 
@@ -481,7 +493,8 @@ public class RemoteFrontendCommunicator implements FrontendCommunicator {
         return result;
     }
 
-    @Override public String getPublicAddressByMetricInstance(MonitorInstance instance) {
+    @Override
+    public String getPublicAddressByMetricInstance(MonitorInstance instance) {
 
         ClientController<IpAddress> controller = this.get(IpAddress.class);
         List<IpAddress> instances = controller.getList();
@@ -497,25 +510,29 @@ public class RemoteFrontendCommunicator implements FrontendCommunicator {
         return null;
     }
 
-    @Override public MonitorInstance getMonitorInstance(Long idMonitorInstance) {
+    @Override
+    public MonitorInstance getMonitorInstance(Long idMonitorInstance) {
 
         ClientController<MonitorInstance> controller = this.get(MonitorInstance.class);
         return controller.get(idMonitorInstance);
     }
 
-    @Override public Schedule getSchedule(Long id) {
+    @Override
+    public Schedule getSchedule(Long id) {
 
         ClientController<Schedule> controller = this.get(Schedule.class);
         return controller.get(id);
     }
 
-    @Override public FormulaQuantifier getQuantifier(Long id) {
+    @Override
+    public FormulaQuantifier getQuantifier(Long id) {
 
         ClientController<FormulaQuantifier> controller = this.get(FormulaQuantifier.class);
         return controller.get(id);
     }
 
-    @Override public Window getWindow(Long id) {
+    @Override
+    public Window getWindow(Long id) {
         List<TimeWindow> tws = this.get(TimeWindow.class).getList();
         List<MeasurementWindow> mws = this.get(MeasurementWindow.class).getList();
 
@@ -533,7 +550,8 @@ public class RemoteFrontendCommunicator implements FrontendCommunicator {
         return null;
     }
 
-    @Override public List<Monitor> getMonitors(List<Long> ids) {
+    @Override
+    public List<Monitor> getMonitors(List<Long> ids) {
         List<Monitor> result = new ArrayList<>();
 
         List<RawMonitor> rawMonitors = this.get(RawMonitor.class).getList();
@@ -562,7 +580,8 @@ public class RemoteFrontendCommunicator implements FrontendCommunicator {
         return result;
     }
 
-    @Override public SensorDescription getSensorDescription(Long id) {
+    @Override
+    public SensorDescription getSensorDescription(Long id) {
 
         ClientController<SensorDescription> controller = this.get(SensorDescription.class);
         return controller.get(id);
@@ -570,7 +589,7 @@ public class RemoteFrontendCommunicator implements FrontendCommunicator {
 
     @Override
     public de.uniulm.omi.cloudiator.axe.aggregator.entities.ComposedMonitor getComposedMonitor(
-        Long id) {
+            Long id) {
 
         ClientController<ComposedMonitor> controller = this.get(ComposedMonitor.class);
         return converter.convert(controller.get(id));
@@ -585,7 +604,7 @@ public class RemoteFrontendCommunicator implements FrontendCommunicator {
 
     @Override
     public de.uniulm.omi.cloudiator.axe.aggregator.entities.ConstantMonitor getConstantMonitor(
-        Long id) {
+            Long id) {
 
         ClientController<ConstantMonitor> controller = this.get(ConstantMonitor.class);
         return converter.convert(controller.get(id));
@@ -595,8 +614,8 @@ public class RemoteFrontendCommunicator implements FrontendCommunicator {
     public int getAmountOfComponentInstances(Long appComponent) {
         int amount = 0;
 
-        for(Instance i : this.get(Instance.class).getList()){
-            if(this.get(ApplicationComponent.class).get(i.getApplicationComponent()).getId().equals(appComponent)){
+        for (Instance i : this.get(Instance.class).getList()) {
+            if (this.get(ApplicationComponent.class).get(i.getApplicationComponent()).getId().equals(appComponent)) {
                 amount++;
             }
         }
@@ -617,7 +636,7 @@ public class RemoteFrontendCommunicator implements FrontendCommunicator {
 
         Instance anyInstance = null;
 
-        for(Instance i : allInstances){
+        for (Instance i : allInstances) {
             ApplicationComponent ac = this.get(ApplicationComponent.class).get(i.getApplicationComponent());
             if (ac.getId().equals(appComponent)) {
                 anyInstance = i;
@@ -669,7 +688,7 @@ public class RemoteFrontendCommunicator implements FrontendCommunicator {
     @Override
     public boolean isInstanceOk(long instance) {
         Instance obj = this.get(Instance.class).get(instance);
-        return (obj != null && obj.getRemoteState().equals(RemoteState.OK));
+        return (obj != null && RemoteState.OK.equals(obj.getRemoteState()));
     }
 
     @Override
