@@ -21,6 +21,7 @@ package de.uniulm.omi.cloudiator.axe.aggregator.communication.rmi.observer;
 
 import de.uniulm.omi.cloudiator.axe.aggregator.communication.rmi.observer.internal.ObserverParameter;
 
+import de.uniulm.omi.cloudiator.axe.aggregator.observer.ActivationObserver;
 import de.uniulm.omi.cloudiator.axe.aggregator.observer.JsonCsObserver;
 import de.uniulm.omi.cloudiator.axe.aggregator.observer.Observer;
 import de.uniulm.omi.cloudiator.axe.aggregator.observer.ScalingObserver;
@@ -48,6 +49,10 @@ public class Creation {
             ScalingObserverParameter p = (ScalingObserverParameter) params;
             return new ScalingObserver(p.getExternalId(), p.getThreshold(), p.getOperator(),
                     p.getColosseumDetails());
+        } else if (params instanceof ActivationObserverParameter) {
+            ActivationObserverParameter p = (ActivationObserverParameter) params;
+            return new ActivationObserver(p.getExternalId(), p.getThreshold(), p.getOperator(),
+                    p.getEndpoint());
         } else {
             throw new RuntimeException("Observer type not implemented!");
         }
