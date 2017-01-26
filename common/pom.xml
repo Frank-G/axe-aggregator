@@ -25,5 +25,11 @@
     </parent>
     <artifactId>axe-aggregator-common</artifactId>
     <packaging>jar</packaging>
-
+    <dependencies>
+        <dependency>
+            <groupId>eu.cloudsocket.execution</groupId>
+            <artifactId>adaptation-management-client</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+    </dependencies>
 </project>
